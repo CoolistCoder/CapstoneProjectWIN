@@ -7,6 +7,6 @@ using namespace std;
 
 int main()
 {
-    std::cout << "Hell World!\n";
+    std::cout << "Hello World!\n";
     return 0;
 }
