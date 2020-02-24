@@ -20,14 +20,14 @@ int main(int, char**)
     Joystick testjoy;
     mainEng->addJoystick(&testjoy);
 
-    //mainEng->fullscreenWindow();
+    mainEng->fullscreenWindow();
 
-    //Mix_Music* musicdata = nullptr;
-    //musicdata = Mix_LoadMUS("robomb.wav");
-    //if (!musicdata) {
-    //    cout << "could not find music" << endl;
-    //}
-    //Mix_Volume(50);
+    Mix_Music* musicdata = nullptr;
+    musicdata = Mix_LoadMUS("robomb.wav");
+    if (!musicdata) {
+        cout << "could not find music" << endl;
+    }
+    Mix_VolumeMusic(50);
 
 
     while (mainEng->getRunning()) {
@@ -47,8 +47,8 @@ int main(int, char**)
             mainEng->stop();
         }
 
-        //if (!Mix_PlayingMusic())
-        //    Mix_PlayMusic(musicdata, 0);
+        if (!Mix_PlayingMusic())
+            Mix_PlayMusic(musicdata, 0);
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
@@ -62,9 +62,9 @@ int main(int, char**)
         mainEng->drawScreen();
     }
 
-    //if (musicdata) {
-    //    Mix_FreeMusic(musicdata);
-    //}
+    if (musicdata) {
+        Mix_FreeMusic(musicdata);
+    }
 
     delete mainEng;
 

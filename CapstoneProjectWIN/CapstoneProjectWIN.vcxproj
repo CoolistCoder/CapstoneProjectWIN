@@ -161,6 +161,9 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Joystick.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="robomb.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -8,9 +8,9 @@ void Joystick::detect() {
 
 void Joystick::updateSticks() {
 	this->leftjoyX = SDL_JoystickGetAxis(this->joystick, 0) / 125;
-	this->rightjoyY = SDL_JoystickGetAxis(this->joystick, 1) / 125;
+	this->rightJoyY = SDL_JoystickGetAxis(this->joystick, 1) / 125;
 	this->leftjoyX = SDL_JoystickGetAxis(this->joystick, 3) / 125;
-	this->rightoyY = SDL_JoystickGetAxis(this->joystick, 4) / 125;
+	this->rightJoyY = SDL_JoystickGetAxis(this->joystick, 4) / 125;
 
 }
 
@@ -41,7 +41,7 @@ int Joystick::getRightStickX() {
 
 int Joystick::getRightStickY() {
 	this->updateSticks();
-	return this->rightjoyY;
+	return this->rightJoyY;
 }
 
 int Joystick::getTotalJoysticks() {

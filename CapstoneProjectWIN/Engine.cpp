@@ -206,7 +206,7 @@ void Engine::setSize(unsigned int w, unsigned int h) {
 
 void Engine::setName(std::string newname) {
 	if (!newname.empty()) {
-		SDL_SetWindowTitle(this->window, newname.cstr());
+		SDL_SetWindowTitle(this->window, newname.c_str());
 	}
 }
 
