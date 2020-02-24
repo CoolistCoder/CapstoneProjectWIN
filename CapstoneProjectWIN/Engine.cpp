@@ -1,35 +1,60 @@
 #include "Engine.h"
 
 void Engine::recalcRenderer() {
+	float ratio;
+	int scaleW, scaleH;
+	int currentW, currentH;
+
+	SDL_GetWindowSize(this->window, &currentW, &currentH);
+	ratio = (float)this->windowW / (float)this->windowH;
+	scaleH = currentH;
+	scaleW = currentH * ratio;
+
+	glViewport((currentW / 2) - (scaleW / 2), (currentH / 2) - (scaleH / 2), scaleW, scaleH);
 
 }
 
 void Engine::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+		std::string errmsg = "UNABLE TO INIT SDL: ";
+		errmsg.append(SDL_GetError());
+
 		SDL_ShowSimpleMessageBox(
 			SDL_MESSAGEBOX_ERROR,
 			"ERROR",
-			"UNABLE TO INIT SDL",
+			errmsg.c_str(),
 			nullptr
 		);
 		return;
 	}
 
 	if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) < 1) {
+		std::string errmsg = "UNABLE TO INIT SDL: ";
+		errmsg.append(SDL_GetError());
+
 		SDL_ShowSimpleMessageBox(
 			SDL_MESSAGEBOX_ERROR,
 			"ERROR",
-			"UNABLE TO INIT SDL IMAGE",
+			errmsg.c_str(),
 			nullptr
 		);
 		return;
 	}
 
+	Mix_OpenAudio(
+		44100,
+		MIX_DEFAULT_FORMAT,
+		2,
+		1024);
+
 	if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG) < 1) {
+		std::string errmsg = "UNABLE TO INIT SDL: ";
+		errmsg.append(SDL_GetError());
+
 		SDL_ShowSimpleMessageBox(
 			SDL_MESSAGEBOX_ERROR,
 			"ERROR",
-			"UNABLE TO INIT SDL MIXER",
+			errmsg.c_str(),
 			nullptr
 		);
 		return;
@@ -39,6 +64,8 @@ void Engine::init() {
 }
 
 void Engine::end() {
+	Mix_CloseAudio();
+
 	if (this->context) {
 		SDL_GL_DeleteContext(this->context);
 	}
@@ -47,11 +74,14 @@ void Engine::end() {
 		SDL_DestroyWindow(this->window);
 	}
 
+	Mix_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }
 
 void Engine::makeWindow(unsigned int w, unsigned int h, std::string title) {
-	if (this->success) {
+
+	if (this->success && !this->window) {
 		this->window = SDL_CreateWindow(
 			title.c_str(),
 			SDL_WINDOWPOS_CENTERED,
@@ -62,6 +92,11 @@ void Engine::makeWindow(unsigned int w, unsigned int h, std::string title) {
 		);
 
 		if (!this->window) {
+			this->windowW = w;
+			this->windowH = h;
+			this->rendererW = this->windowW;
+			this->rendererH = this->windowH;
+
 			SDL_ShowSimpleMessageBox(
 				SDL_MESSAGEBOX_ERROR,
 				"ERROR",
@@ -135,4 +170,108 @@ void Engine::clearScreen() {
 			this->isrunning = false;
 		}
 	}
+
+	this->recalcRenderer();
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if (!this->alljoysticks.empty()) {
+		for (int i = 0; i < Joystick::getTotalJoysticks(); i++) {
+			this->alljoysticks.at(i)->detect();
+		}
+	}
+}
+
+void Engine::drawScreen() {
+	
+	double frameDel = 1000.0 / this->framerate;
+	double frameTime = SDL_GetTicks() - this->firsttick;
+	if (frameTime < frameDel) {
+		SDL_Delay(static_cast<Uint32>(frameDel - frameTime));
+
+	}
+
+	SDL_GL_SwapWindow(this->window);
+}
+
+void Engine::setPosition(unsigned int x, unsigned int y) {
+	SDL_SetWindowPosition(this->window, x, y);
+}
+
+void Engine::setSize(unsigned int w, unsigned int h) {
+	this->windowW = w;
+	this->windowH = h;
+	SDL_SetWindowSize(this->window, w, h);
+}
+
+void Engine::setName(std::string newname) {
+	if (!newname.empty()) {
+		SDL_SetWindowTitle(this->window, newname.cstr());
+	}
+}
+
+void Engine::setResolution(unsigned int w, unsigned int h) {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0, w, h, 0);
+}
+
+void Engine::maximizeWindow() {
+	SDL_MaximizeWindow(this->window);
+}
+
+void Engine::restoreWindow() {
+	SDL_RestoreWindow(this->window);
+}
+
+void Engine::fullscreenWindow() {
+	SDL_SetWindowFullscreen(this->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+}
+
+void Engine::normalscreenWindow() {
+	SDL_SetWindowFullscreen(this->window, 0);
+}
+
+void Engine::stop() {
+	this->isrunning = false;
+}
+
+void Engine::setFPS(unsigned int newFPS) {
+	this->framerate = newFPS;
+}
+
+bool Engine::getKey(SDL_Scancode key) {
+	if (key >= 0 || key < 256) {
+		const Uint8* whichkey = SDL_GetKeyboardState(NULL);
+
+		if (whichkey[key]) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void Engine::addJoystick(Joystick* newjoystick) {
+	if (newjoystick) {
+		this->alljoysticks.push_back(newjoystick);
+	}
+}
+
+Engine::Engine() {
+	this->context = 0;
+	this->window = nullptr;
+	this->isrunning = false;
+	this->success = false;
+	this->framerate = 60;
+	this->windowW = 640;
+	this->windowH = 480;
+
+	this->rendererW = this->windowW;
+	this->rendererH = this->windowH;
+
+	this->init();
+}
+
+Engine::~Engine() {
+	this->end();
 }

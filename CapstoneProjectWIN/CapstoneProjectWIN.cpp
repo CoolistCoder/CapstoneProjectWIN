@@ -1,33 +1,72 @@
 /*
 Capstone Engine created by Alec Roberts and Steven Cole (team Alpha Sapphire)
 */
-
-//All of the files needed to create a functional engine
-#include <Windows.h>
-#include <SDL.h>
-#include <gl/GL.h>
-
-//Quality of life files that make coding easier.
 #include <iostream>
 using namespace std;
+
+#include "Engine.h"
 
 //Add command line parameters to allow SDL2 to recognize main
 int main(int, char**)
 {
-    //Produce an error message if the initialization process fails
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        //This will show a message upon failure to initialize
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR", "Unable to init SDL2", nullptr);
-        return 0;    //TODO remove the early return upon failure
-    };
+    Engine* mainEng = new Engine();
+    mainEng->makeWindow(640, 480, "Hello, World!");
+    mainEng->setSize(1920 / 2, 1080 / 2);
 
-    //This is the part where we make a window!
-    SDL_Window* window; //Create our window pointer
-    //Create a window designed for opengl that we can scale
-    window = SDL_CreateWindow("Hello, World!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-    SDL_Delay(3000);    //Wait for 3 seconds so we can see the window
-    SDL_DestroyWindow(window);  //Delete the window from memory
-    SDL_Quit(); //properly and cleanly close SDL
+    mainEng->setResolution(1920 / 4, 1080 / 4);
+
+    int x = 0, y = 0;
+
+    Joystick testjoy;
+    mainEng->addJoystick(&testjoy);
+
+    //mainEng->fullscreenWindow();
+
+    //Mix_Music* musicdata = nullptr;
+    //musicdata = Mix_LoadMUS("robomb.wav");
+    //if (!musicdata) {
+    //    cout << "could not find music" << endl;
+    //}
+    //Mix_Volume(50);
+
+
+    while (mainEng->getRunning()) {
+
+        mainEng->clearScreen();
+
+        if (testjoy.getRightStickY() > 100 || mainEng->getKey(SDL_SCANCODE_DOWN))
+            y++;
+        if (testjoy.getRightStickY() < -100 || mainEng->getKey(SDL_SCANCODE_UP))
+            y--;
+        if (testjoy.getRightStickX() < -100 || mainEng->getKey(SDL_SCANCODE_LEFT))
+            x--;
+        if (testjoy.getRightStickX() > 100 || mainEng->getKey(SDL_SCANCODE_RIGHT))
+            x++;
+
+        if (mainEng->getKey(SDL_SCANCODE_ESCAPE)) {
+            mainEng->stop();
+        }
+
+        //if (!Mix_PlayingMusic())
+        //    Mix_PlayMusic(musicdata, 0);
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glBegin(GL_QUADS);
+            glVertex2i(x, y);
+            glVertex2i(x+10, y);
+            glVertex2i(x+10, y+10);
+            glVertex2i(x, y+10);
+        glEnd();
+
+        mainEng->drawScreen();
+    }
+
+    //if (musicdata) {
+    //    Mix_FreeMusic(musicdata);
+    //}
+
+    delete mainEng;
 
     return 0;   
 }
