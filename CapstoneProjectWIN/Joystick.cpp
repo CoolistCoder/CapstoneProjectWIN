@@ -7,6 +7,8 @@ void Joystick::detect() {
 }
 
 void Joystick::updateSticks() {
+	//this stores the a 16 bit integer value into the attributes of our Joystick object
+	//The "get axis" function returns a value between -32768 and 32768, representing axis position
 	this->leftjoyX = SDL_JoystickGetAxis(this->joystick, 0) / 125;
 	this->rightJoyY = SDL_JoystickGetAxis(this->joystick, 1) / 125;
 	this->leftjoyX = SDL_JoystickGetAxis(this->joystick, 3) / 125;
