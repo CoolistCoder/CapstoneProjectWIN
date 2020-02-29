@@ -51,7 +51,7 @@ public:
 
 	void setFPS(unsigned int);
 
-	bool getKey(SDL_Scancode);
+	static bool getKey(SDL_Scancode);
 
 	void addJoystick(Joystick*);
 

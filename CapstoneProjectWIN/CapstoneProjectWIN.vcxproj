@@ -156,10 +156,12 @@
     <ClCompile Include="CapstoneProjectWIN.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Joystick.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Joystick.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="robomb.wav" />
