@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "Entity.h"
+#include "Box.h"
 #include <functional>
 #include <vector>
 
@@ -21,7 +22,8 @@ public:
 
 	void execute();
 
-	static void cleanup(); //deletes all instances of Scenes
+	//not operational
+	//static void cleanup(); //deletes all instances of Scenes
 
 	Scene(Engine*);
 	virtual ~Scene();

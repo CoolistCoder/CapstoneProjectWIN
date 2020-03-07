@@ -8,7 +8,7 @@
 class Entity {
 protected:
 	std::function<void(Entity * e)> storedBehavior; //the behavior stored in the entity
-	unsigned int priority; //the priority of the entityand when it is handled in the vector
+	unsigned int priority; //the priority of the entity and when it is handled in the vector
 	Joystick* knownJoystick; //the joystick that the entity is given
 	Engine* knownEngine; //the engine known by the entity
 

@@ -34,20 +34,40 @@ void Scene::execute() {
 	this->storedBehavior(this);
 
 	//handle all of the entities here
+	//first, sort based on priority
+	//TODO: USE A FASTER SORTING ALGORITHM
+	bool finished = false; //before we start, we need our condition
+	while (!finished) {
+		//set condition to true
+		finished = true; //this will cause a break if a sort isn't performed
+		for (unsigned int i = 0; i < this->entitiesInScene.size() - 1; i++) {
+			//we need to perform a comparison with each member
+			if (this->entitiesInScene.at(i)->getPriority() < this->entitiesInScene.at(i + 1)->getPriority()) {
+				//the swap is not complete, therefore the finished variable is false
+				finished = false;
+				//perform a swap
+				Entity* temp = this->entitiesInScene.at(i);
+				this->entitiesInScene.at(i) = this->entitiesInScene.at(i + 1);
+				this->entitiesInScene.at(i + 1) = temp;
+			}
+		}
+	}
+	//now execute each entity
 	for (unsigned int i = 0; i < this->entitiesInScene.size(); i++) {
-		//TODO run the execute function for each entity
+		this->entitiesInScene.at(i)->execute();
 	}
 
 	//draw the screen
 	this->knownEngine->drawScreen();
 }
 
-void Scene::cleanup() {
+//Not Operational
+/*void Scene::cleanup() {
 	//go through each instance of scene and delete it from memory
 	for (unsigned int i = 0; i < Scene::allScenes.size(); i++) {
-		delete allScenes.at(i);
+		delete Scene::allScenes.at(i);
 	}
-}
+}*/
 
 Scene::Scene(Engine* newEngine) {
 	//TODO Auto-Generated constructor stub
@@ -59,12 +79,9 @@ Scene::Scene(Engine* newEngine) {
 Scene::~Scene() {
 	//TODO Auto-Generated Destructor Stub
 
-	//TODO clean up the entities loaded into the scene
-
-	//if there is only one scene left
-	if (Scene::numscenes <= 1) {
-		//just delete all of the scenes
-		Scene::cleanup();
+	//clean up entities loaded into the scene
+	for(unsigned int i=0; i < this->entitiesInScene.size(); i++){
+		delete this->entitiesInScene.at(i);
 	}
 	Scene::numscenes--; //decrement the number of scenes
 }

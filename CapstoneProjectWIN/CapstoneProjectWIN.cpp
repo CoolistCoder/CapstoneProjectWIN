@@ -10,6 +10,7 @@ using namespace std;
 #include "Scene.h"
 
 void sceneBehavior(Scene*);
+void boxBehavior(Entity*);
 
 //Add command line parameters to allow SDL2 to recognize main
 int main(int, char**)
@@ -29,6 +30,15 @@ int main(int, char**)
     //create a scene instance
     Scene* scene1 = new Scene(mainEng);
     scene1->setBehavior(sceneBehavior);
+
+    //create an entity
+    Entity* newbox = new Box;
+
+    //give the entity something to do
+    newbox->setBehavior(boxBehavior);
+
+    //give the box to the scene
+    scene1->addEntity(newbox);
 
     //make the window full screen
     //mainEng->fullscreenWindow();
@@ -66,6 +76,7 @@ int main(int, char**)
 
 
 void sceneBehavior(Scene* ns) {
+    /*Not necessary anymore!!!
     //This is a demo function that takes the 
     static int x, y;
 
@@ -81,15 +92,14 @@ void sceneBehavior(Scene* ns) {
         x++;
 
     //setting up escape key as an exit option
-    /*if (Engine::getKey(SDL_SCANCODE_ESCAPE)) {
+    if (Engine::getKey(SDL_SCANCODE_ESCAPE)) {
         mainEng->stop();
-    }*/
+    }
 
     //We might wanna play the music here
-    /*if (!Mix_PlayingMusic())    //this will loop the music when the track ends
-        Mix_PlayMusic(musicdata, 0);*/
+    if (!Mix_PlayingMusic())    //this will loop the music when the track ends
+        Mix_PlayMusic(musicdata, 0);
 
-        //
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glBegin(GL_QUADS);
@@ -98,4 +108,28 @@ void sceneBehavior(Scene* ns) {
     glVertex2i(x + 10, y + 10);
     glVertex2i(x, y + 10);
     glEnd();
+    */
+}
+
+void boxBehavior(Entity* b) {
+    Box* temp = static_cast<Box*>(b);
+
+    //save position of the square into variables
+    int x = temp->getX(), y = temp->getY();
+
+    //allow us to modify those variables with the keyboard
+    if (Engine::getKey(SDL_SCANCODE_DOWN))
+        y++;
+    if (Engine::getKey(SDL_SCANCODE_UP))
+        y--;
+    if (Engine::getKey(SDL_SCANCODE_LEFT))
+        x--;
+    if (Engine::getKey(SDL_SCANCODE_RIGHT))
+        x++;
+
+    //put those modified variables into the box
+    temp->setPosition(x, y);
+
+    //draw the box
+    temp->draw();
 }
