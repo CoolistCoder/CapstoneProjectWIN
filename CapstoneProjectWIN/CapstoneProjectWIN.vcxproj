@@ -157,9 +157,11 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Joystick.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Joystick.h" />
     <ClInclude Include="Scene.h" />
   </ItemGroup>

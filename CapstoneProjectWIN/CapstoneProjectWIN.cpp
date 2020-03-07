@@ -55,6 +55,10 @@ int main(int, char**)
         Mix_FreeMusic(musicdata);
     }*/
 
+    //delete all scenes
+    delete scene1;
+
+    //clean up engine(this will clean it up on its own)
     delete mainEng;
 
     return 0;   
