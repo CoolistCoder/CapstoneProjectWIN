@@ -33,6 +33,9 @@
     <ClCompile Include="Box.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

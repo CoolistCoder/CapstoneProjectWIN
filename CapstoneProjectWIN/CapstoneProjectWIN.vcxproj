@@ -159,11 +159,13 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Line.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="Joystick.h" />
     <ClInclude Include="Scene.h" />
   </ItemGroup>
