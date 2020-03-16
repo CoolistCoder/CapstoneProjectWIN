@@ -1,6 +1,6 @@
 #include "Line.h"
 
-static void Line::defaultBehavior(Entity* e) {
+void Line::defaultBehavior(Entity* e) {
 	//simply draw
 	static_cast<Line*>(e)->draw();
 }
@@ -15,7 +15,7 @@ void Line::setLinePosition(int startX, int startY, int endX, int endY) {
 
 void Line::draw() {
 	//This function's drawing algorithm is based on the Bresenham Line Algorithm
-	//We need to save the veariables stored for the start and end points of the line
+	//We need to save the variables stored for the start and end points of the line
 	int savedStartX = this->startX, savedStartY = this->startY;
 	int savedEndX = this->endX, savedEndY = this->endY;
 

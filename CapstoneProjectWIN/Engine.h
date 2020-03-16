@@ -11,6 +11,10 @@
 #include "Joystick.h"
 #include <vector>
 
+//#include "Image.h"
+
+#include "ErrorLog.h""
+
 class Engine {
 private:
 	bool isrunning;
@@ -19,6 +23,7 @@ private:
 	SDL_GLContext context;
 	unsigned int framerate;
 	Uint32 firsttick;
+	ErrorLog* log; //the error log that the engine will know about (TODO IMPLEMENT THIS)
 
 	unsigned int windowW, windowH;
 	unsigned int rendererW, rendererH;
@@ -41,6 +46,8 @@ public:
 	void setSize(unsigned int, unsigned int);
 	void setName(std::string);
 	void setResolution(unsigned int, unsigned int);
+	unsigned int getResW() { return this->rendererW; }; //get the renderer's width
+	unsigned int getResH() { return this->rendererH; }; //get the renderer's height
 
 	void maximizeWindow();
 	void restoreWindow();
@@ -54,6 +61,7 @@ public:
 	static bool getKey(SDL_Scancode);
 
 	void addJoystick(Joystick*);
+	Joystick* getJoystick(unsigned int); //retrieves a joystick based on its index
 
 	Engine();
 	virtual ~Engine();

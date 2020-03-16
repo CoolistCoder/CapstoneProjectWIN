@@ -15,10 +15,14 @@ private:
 	static unsigned int numscenes; //this is the total number of scenes instanciated
 	std::vector<Entity*> entitiesInScene; //all of the entities within the scene instance
 
+	static void defaultBehavior(Scene*);
+
 public:
 	void giveEngine(Engine*); //simply gives an engine to the scene
 	void setBehavior(void newBehavior(Scene* ns));
 	void addEntity(Entity*);
+	void stop();
+	Joystick* getJoystick(unsigned int);
 
 	void execute();
 

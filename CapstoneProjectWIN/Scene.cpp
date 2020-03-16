@@ -4,6 +4,13 @@
 unsigned int Scene::numscenes = 0;
 std::vector<Scene*> Scene::allScenes;
 
+void Scene::defaultBehavior(Scene* defaultScene) {
+	//by default, the engine will die down when the escape key is hit
+	if (Engine::getKey(SDL_SCANCODE_ESCAPE)) {
+		defaultScene->stop();
+	}
+}
+
 void Scene::giveEngine(Engine* newEngine) {
 	if (newEngine) { //we only want to set this if the engine isn't null
 		this->knownEngine = newEngine; //if the engine isn't null, simply put it in there
@@ -19,8 +26,19 @@ void Scene::setBehavior(void newBehavior(Scene* ns)) {
 void Scene::addEntity(Entity* newEntity) {
 	//only add entity if the entity isn't null
 	if (newEntity) {
+		newEntity->setEngine(this->knownEngine); //give the entity access to this engine
 		this->entitiesInScene.push_back(newEntity); //give us the new entity
 	}
+}
+
+void Scene::stop() {
+	//kill the engine
+	this->knownEngine->stop();
+}
+
+Joystick* Scene::getJoystick(unsigned int index) {
+	//handle returning the joystick like the engine
+	return this->knownEngine->getJoystick(index);
 }
 
 void Scene::execute() {
@@ -71,8 +89,9 @@ void Scene::execute() {
 
 Scene::Scene(Engine* newEngine) {
 	//TODO Auto-Generated constructor stub
-	//This object NEEDS to know what an engine is. If it doesn't, itdefeats the point
+	//This object NEEDS to know what an engine is. If it doesn't, it defeats the point of having a scene object
 	this->giveEngine(newEngine);
+	this->setBehavior(Scene::defaultBehavior);
 	Scene::numscenes++; //increment the number of scenes
 }
 

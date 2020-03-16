@@ -15,6 +15,9 @@ void boxBehavior(Entity*);
 //Add command line parameters to allow SDL2 to recognize main
 int main(int, char**)
 {
+
+    
+
     Engine* mainEng = new Engine(); //create the engine dynamically
     mainEng->makeWindow(640, 480, "Hello, World!"); //create the window with initial width, height, title
     mainEng->setSize(1920 / 2, 1080 / 2); //testing the setsize function
