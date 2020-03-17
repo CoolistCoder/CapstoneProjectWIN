@@ -35,13 +35,18 @@ int main(int, char**)
     scene1->setBehavior(sceneBehavior);
 
     //create an entity
-    Entity* newbox = new Box;
+    //Entity* newbox = new Box;
+    Entity* newBackground = new Background;
+
+    static_cast<Background*>(newBackground)->loadImage("North_Star_background.png");
+
 
     //give the entity something to do
-    newbox->setBehavior(boxBehavior);
+   // newbox->setBehavior(boxBehavior);
 
     //give the box to the scene
-    scene1->addEntity(newbox);
+    //scene1->addEntity(newbox);
+    scene1->addEntity(newBackground);
 
     //make the window full screen
     //mainEng->fullscreenWindow();

@@ -181,7 +181,7 @@
     <Media Include="robomb.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\North_Star_background.png" />
+    <Image Include="North_Star_background.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

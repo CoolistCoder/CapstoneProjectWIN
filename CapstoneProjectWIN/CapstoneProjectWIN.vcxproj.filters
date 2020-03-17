@@ -87,7 +87,7 @@
     </Media>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\North_Star_background.png">
+    <Image Include="North_Star_background.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

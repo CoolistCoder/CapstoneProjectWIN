@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Entity.h"
 #include "Box.h"
+#include "Background.h"
 #include <functional>
 #include <vector>
 
