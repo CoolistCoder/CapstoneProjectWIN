@@ -27,18 +27,20 @@ void Background::draw() {
 	//enable texture drawing
 	glEnable(GL_TEXTURE_2D);
 
+
+
 	glBegin(GL_QUADS);
 		glTexCoord2i(0, 0);				//top left of texture
-		glVertex2i(this->x, this->y);	//top left of background
+		glVertex2i(0, 0);	//top left of background
 
-		glTexCoord2i(this->w, 0);				//top right of texture
-		glVertex2i(this->x + this->w, this->y);	//top right of background
+		glTexCoord2i(this->storedSource->w, 0);				//top right of texture
+		glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
 
-		glTexCoord2i(this->w, this->h);				//bottom right of texture
-		glVertex2i(this->x + this->w, this->y + this->h);	//bottom right of background
+		glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom right of texture
+		glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
 
-		glTexCoord2i(0, this->h);				//bottom left of texture
-		glVertex2i(this->x, this->y + this->h);	//bottom left of background
+		glTexCoord2i(0, this->storedSource->h);				//bottom left of texture
+		glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
 	glEnd();
 
 	glMatrixMode(GL_TEXTURE);

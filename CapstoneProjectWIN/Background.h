@@ -7,7 +7,12 @@ class Background : public Entity , public Image {
 private:
 	int x, y; //the x and y positions of the background (should be the same as renderer)
 	unsigned int w, h; //the width and height of the background
+	int center;
 	bool visible; //to toggle visibility of background
+
+	int subX, subY;
+	unsigned int subW, subH;
+
 
 	static void defaultBehavior(Entity* e); //the default behavior of the background
 

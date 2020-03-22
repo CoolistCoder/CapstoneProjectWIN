@@ -10,7 +10,7 @@ void Image::loadImage(const char* imageName) {
 		//then, delete the source image stored in the memory
 		SDL_FreeSurface(this->storedSource);
 		//now set both to nullptr
-		this->imageHeight = 0;
+		this->image = 0;
 		this->storedSource = nullptr;
 	}
 	//once this check has been performed, we move onto the load function
