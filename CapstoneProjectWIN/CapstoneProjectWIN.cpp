@@ -58,10 +58,13 @@ int main(int, char**)
     Mix_VolumeMusic(50); //setting volume to 50%
     */
 
+    static_cast<Background*>(newBackground)->flipY();
+
+
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
                                     //end condition met, such as when the X is clicked
-
+        
         scene1->execute();
 
     }

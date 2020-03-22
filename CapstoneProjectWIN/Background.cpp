@@ -27,21 +27,66 @@ void Background::draw() {
 	//enable texture drawing
 	glEnable(GL_TEXTURE_2D);
 
+	if (flagX) {
+		glBegin(GL_QUADS);
+			glTexCoord2i(this->storedSource->w, 0);				//top left of texture
+			glVertex2i(0, 0);	//top left of background
 
+			glTexCoord2i(0, 0);				//top right of texture
+			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
 
-	glBegin(GL_QUADS);
-		glTexCoord2i(0, 0);				//top left of texture
-		glVertex2i(0, 0);	//top left of background
+			glTexCoord2i(0, this->storedSource->h);				//bottom right of texture
+			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
 
-		glTexCoord2i(this->storedSource->w, 0);				//top right of texture
-		glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom left of texture
+			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		glEnd();
+	}
+	else if (flagY) {
+		glBegin(GL_QUADS);
+			glTexCoord2i(0, this->storedSource->h);				//top left of texture
+			glVertex2i(0, 0);	//top left of background
 
-		glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom right of texture
-		glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top right of texture
+			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
 
-		glTexCoord2i(0, this->storedSource->h);				//bottom left of texture
-		glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-	glEnd();
+			glTexCoord2i(this->storedSource->w, 0);				//bottom right of texture
+			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+
+			glTexCoord2i(0, 0);				//bottom left of texture
+			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		glEnd();
+	}
+	else if (flagX && flagY) {
+		glBegin(GL_QUADS);
+			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top left of texture
+			glVertex2i(0, 0);	//top left of background
+
+			glTexCoord2i(0, this->storedSource->h);				//top right of texture
+			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+
+			glTexCoord2i(0, 0);				//bottom right of texture
+			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+
+			glTexCoord2i(this->storedSource->w, 0);				//bottom left of texture
+			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		glEnd();
+	}
+	else {
+		glBegin(GL_QUADS);
+			glTexCoord2i(0, 0);				//top left of texture
+			glVertex2i(0, 0);	//top left of background
+
+			glTexCoord2i(this->storedSource->w, 0);				//top right of texture
+			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+
+			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom right of texture
+			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+
+			glTexCoord2i(0, this->storedSource->h);				//bottom left of texture
+			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		glEnd();
+	}
 
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
@@ -51,24 +96,28 @@ void Background::draw() {
 }
 
 void Background::flipX() {
-
+	if (this->flagX == false)
+		this->flagX = true;
+	else this->flagX = false;
 }
 
 void Background::flipY() {
-
+	if (this->flagY == false)
+		this->flagY = true;
+	else this->flagY = false;
 }
 
-void Background::rotate(int angle) {
-	//translate so center is at (0,0,0)
-	glTranslatef(-this->x, -this->y, 0);
-
-	//rotate the background a specified angle around the z-axis (2-D rotation)
-	glRotatef(angle, 0.0, 0.0, 1.0);
-
-	//translate back to original position
-	glTranslatef(this->x, this->y, 0);
-
-}
+//void Background::rotate(int angle) {
+//	//translate so center is at (0,0,0)
+//	glTranslatef(-this->centerX, -this->centerY, 0);
+//
+//	//rotate the background a specified angle around the z-axis (2-D rotation)
+//	glRotatef(angle, 0.0, 0.0, 1.0);
+//
+//	//translate back to original position
+//	glTranslatef(this->centerX, this->centerY, 0);
+//
+//}
 
 void Background::setPosition(int x, int y) {
 	//set the x and y position of the background
@@ -91,6 +140,12 @@ Background::Background() {
 	this->y = 0;
 	this->w = 1;
 	this->h = 1;
+
+	//this->centerX = (this->knownEngine->getResW() / 2);
+	//this->centerY = (this->knownEngine->getResH() / 2);
+
+	this->flagX = false;
+	this->flagY = false;
 
 	this->visible = true;
 
