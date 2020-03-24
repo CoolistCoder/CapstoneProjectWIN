@@ -3,6 +3,9 @@
 #include "Entity.h"
 #include "Box.h"
 #include "Background.h"
+#include "Line.h"
+//#include "Sprite.h"
+#include "Camera.h"
 #include <functional>
 #include <vector>
 
@@ -16,14 +19,18 @@ private:
 	static unsigned int numscenes; //this is the total number of scenes instanciated
 	std::vector<Entity*> entitiesInScene; //all of the entities within the scene instance
 
+	Camera* activeCamera; //this is the active camera of the scene
+
 	static void defaultBehavior(Scene*);
 
 public:
 	void giveEngine(Engine*); //simply gives an engine to the scene
-	void setBehavior(void newBehavior(Scene* ns));
-	void addEntity(Entity*);
-	void stop();
-	Joystick* getJoystick(unsigned int);
+	void setBehavior(void newBehavior(Scene* ns)); //set the behavior of the scene
+	void addEntity(Entity*); //add an entity to the entity vector
+	void stop(); //stop the engine stored within the scene
+	Joystick* getJoystick(unsigned int); //get the joystick stored in the engine
+
+	void setActiveCamera(Camera*); //set which camera is the main camera
 
 	void execute();
 

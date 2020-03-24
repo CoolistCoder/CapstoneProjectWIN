@@ -163,6 +163,7 @@
     <ClCompile Include="ErrorLog.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="CapstoneProjectWIN.h" />
     <ClInclude Include="ErrorLog.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Joystick.h" />

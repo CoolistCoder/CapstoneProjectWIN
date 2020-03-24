@@ -6,17 +6,18 @@ void Box::defaultBehavior(Entity* e) {
 }
 
 void Box::draw() {
-	//TODO replace directdraw mode with vertex mode
+	//TODO replace directdraw (immediate mode) mode with vertex mode
 	//we only want to use our box drawing function if the visible value is true
 	if (this->visible) {
 		//we can largely copy the code we've used previously for the draw function
 		glMatrixMode(GL_MODELVIEW); //change the matrix to the modelview matrix to modify objects drawn to the screen
 		glLoadIdentity();	//change the active identity to the modelview matrix
 		glBegin(GL_QUADS);	//draw quads
-				glVertex2i(this->x, this->y);	//top left
-				glVertex2i(this->x+this->w, this->y);	//bottom left
-				glVertex2i(this->x + this->w, this->y+this->h);	//bottom right
-				glVertex2i(this->x, this->y + this->h);	//top right
+				glColor4ub(this->r, this->g, this->b, this->a); //adjust the color values of the box beforehand
+				glVertex2i(this->x + this->modposX, this->y + this->modposY);	//top left
+				glVertex2i(this->x + this->w + this->modposX, this->y + this->modposY);	//bottom left
+				glVertex2i(this->x + this->w + this->modposX, this->y + this->h + this->modposY);	//bottom right
+				glVertex2i(this->x + this->modposX, this->y + this->h + this->modposX);	//top right
 		glEnd();	//stop drawing
 		//this will draw our box
 	}
@@ -34,6 +35,18 @@ void Box::setSize(unsigned int w, unsigned int h) {
 	this->h = h;
 }
 
+void Box::setColor(Uint8 r, Uint8 g, Uint8 b) {
+	//set the values
+	this->r = r; //red
+	this->g = g; //green
+	this->b = b; //blue
+}
+
+void Box::setTransparency(Uint8 a) {
+	//set the alpha value
+	this->a = a;
+}
+
 void Box::execute() {
 	//just execute the stored code
 	this->storedBehavior(this);
@@ -46,6 +59,12 @@ Box::Box() {
 	this->h = 1;
 	this->x = 0;
 	this->y = 0;
+
+	//by default, the square is white
+	this->r = 255;
+	this->g = 255;
+	this->b = 255;
+	this->a = 255;
 
 	//by default the square is visible
 	this->visible = true;

@@ -11,7 +11,7 @@
 #include "Joystick.h"
 #include <vector>
 
-//#include "Image.h"
+#include "Image.h"
 
 #include "ErrorLog.h"
 

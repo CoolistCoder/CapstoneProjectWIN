@@ -79,6 +79,12 @@ void Entity::decoupleEntity(Entity* e) {
 	}
 }
 
+void Entity::modifyOffset(int x, int y) {
+	//just set the values
+	this->modposX = x;
+	this->modposY = y;
+}
+
 Entity::Entity() {
 	//TODO Auto-Generated constructor stub
 	this->priority = 0; //if priorities match, they're drawn in order of when they're added

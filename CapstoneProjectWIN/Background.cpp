@@ -5,30 +5,66 @@ void Background::defaultBehavior(Entity* e)
 	static_cast<Background*>(e)->draw();
 }
 
+void Background::setFrameCount(unsigned int across, unsigned int down) {
+	//this will subdivide the image, be careful when doing this!
+	this->framesW = across;
+	this->framesH = down;
+}
+
+void Background::setFrame(int currentFrame) {
+	//set the current frame based on the integer index
+	if (currentFrame >= 0) { //prevent this from being less than 0
+		this->frame = currentFrame;
+	}
+}
+
 void Background::draw() {
+	//we only want to implement the draw if the background has data
+	if (!this->empty()) {
 
-	glMatrixMode(GL_TEXTURE); //the texture matrix will be the matrix we will perform our operations on
-	glLoadIdentity(); //load the identity matrix
+		//we need to get some data
+		const int total_subimages = this->framesW * this->framesH; //total subimages made from the image
 
-	//adjust the matrix to the size of our image
-	glScaled(1.0 / this->storedSource->w, 1.0 / this->storedSource->h, 1.0); //the scale will be derived from the image dimensions
+		//we need to be able to calculate what subimages to grab based on the image index
+		//make sure the frame value isn't higher than the number of total images we have
+		while (this->frame >= total_subimages) {
+			//subtract 1 from frame until we have a valid index
+			this->frame--;
+		}
 
-	//now use modelview for drawing the image
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+		//the subimage's width and height is based on the image's total size / number of images in corresponding direction
+		const int subimageW = this->storedSource->w / this->framesW;
+		const int subimageW = this->storedSource->w / this->framesW;
 
-	//set up the parameters for drawing the image so it uses the pixels
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		//now we need to select the correct image based on this index
+		//calculate the image we want to grab accross using modulos and the width of the subimage
+		const int subimageX = (this->frame % this->framesW) * (this->storedSource->w / this->framesW);
+		//calculate the image we want to grab down using division and the height of the subimage
+		const int subimageY = (this->frame / this->framesW) * (this->storedSource->h / this->framesH);
 
-	//bind this texture to our image
-	glBindTexture(GL_TEXTURE_2D, this->image);
 
-	//enable texture drawing
-	glEnable(GL_TEXTURE_2D);
+		glMatrixMode(GL_TEXTURE); //the texture matrix will be the matrix we will perform our operations on
+		glLoadIdentity(); //load the identity matrix
 
-	if (flagX) {
-		glBegin(GL_QUADS);
+		//adjust the matrix to the size of our image
+		glScaled(1.0 / this->storedSource->w, 1.0 / this->storedSource->h, 1.0); //the scale will be derived from the image dimensions
+
+		//now use modelview for drawing the image
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		//set up the parameters for drawing the image so it uses the pixels
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		//bind this texture to our image
+		glBindTexture(GL_TEXTURE_2D, this->image);
+
+		//enable texture drawing
+		glEnable(GL_TEXTURE_2D);
+
+		if (flagX) {
+			glBegin(GL_QUADS);
 			glTexCoord2i(this->storedSource->w, 0);				//top left of texture
 			glVertex2i(0, 0);	//top left of background
 
@@ -40,10 +76,10 @@ void Background::draw() {
 
 			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom left of texture
 			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		glEnd();
-	}
-	else if (flagY) {
-		glBegin(GL_QUADS);
+			glEnd();
+		}
+		else if (flagY) {
+			glBegin(GL_QUADS);
 			glTexCoord2i(0, this->storedSource->h);				//top left of texture
 			glVertex2i(0, 0);	//top left of background
 
@@ -55,10 +91,10 @@ void Background::draw() {
 
 			glTexCoord2i(0, 0);				//bottom left of texture
 			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		glEnd();
-	}
-	else if (flagX && flagY) {
-		glBegin(GL_QUADS);
+			glEnd();
+		}
+		else if (flagX && flagY) {
+			glBegin(GL_QUADS);
 			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top left of texture
 			glVertex2i(0, 0);	//top left of background
 
@@ -70,10 +106,10 @@ void Background::draw() {
 
 			glTexCoord2i(this->storedSource->w, 0);				//bottom left of texture
 			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		glEnd();
-	}
-	else {
-		glBegin(GL_QUADS);
+			glEnd();
+		}
+		else {
+			glBegin(GL_QUADS);
 			glTexCoord2i(0, 0);				//top left of texture
 			glVertex2i(0, 0);	//top left of background
 
@@ -85,14 +121,15 @@ void Background::draw() {
 
 			glTexCoord2i(0, this->storedSource->h);				//bottom left of texture
 			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		glEnd();
+			glEnd();
+		}
+
+		glMatrixMode(GL_TEXTURE);
+		glLoadIdentity();
+
+		//must disable textures to prevent OpenGL mixing up the textures as we go
+		glDisable(GL_TEXTURE_2D);
 	}
-
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
-
-	//must disable textures to prevent OpenGL mixing up the textures as we go
-	glDisable(GL_TEXTURE_2D);
 }
 
 void Background::flipX() {
@@ -136,19 +173,31 @@ void Background::execute() {
 }
 
 Background::Background() {
+	//initialize everything to 0 and 1, we have no data for this yet
 	this->x = 0;
 	this->y = 0;
 	this->w = 1;
 	this->h = 1;
 
+	//set the frame to 0, we have no information regarding that yet
+	this->frame = 0;
+
+	//obtain the center of the renderer
 	//this->centerX = (this->knownEngine->getResW() / 2);
 	//this->centerY = (this->knownEngine->getResH() / 2);
 
+	//by default, no flip should occur
 	this->flagX = false;
 	this->flagY = false;
 
+	//by default, the number of subimages accross and down would be 1
+	this->framesW = 1;
+	this->framesH = 1;
+
+	//by default, the background is visible
 	this->visible = true;
 
+	//set the default behavior of the background
 	this->setBehavior(Background::defaultBehavior);
 }
 

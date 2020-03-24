@@ -41,6 +41,13 @@ Joystick* Scene::getJoystick(unsigned int index) {
 	return this->knownEngine->getJoystick(index);
 }
 
+void Scene::setActiveCamera(Camera* c) {
+	//as long as we have a camera, we can make it active
+	if (c) {
+		this->activeCamera = c;
+	}
+}
+
 void Scene::execute() {
 	//the execute function works like a normal loop
 	//executed within the main loop
@@ -70,6 +77,15 @@ void Scene::execute() {
 			}
 		}
 	}
+
+	//we need the camera to modify the offset of all entities
+	if (this->activeCamera) {
+		//if the camera exists, proceed to loop through all the entities and modify their positions
+		for (int i = 0; i < this->entitiesInScene.size(); i++) {
+			this->entitiesInScene.at(i)->modifyOffset(this->activeCamera->getX(), this->activeCamera->getY());
+		}
+	}
+
 	//now execute each entity
 	for (unsigned int i = 0; i < this->entitiesInScene.size(); i++) {
 		this->entitiesInScene.at(i)->execute();
@@ -92,6 +108,7 @@ Scene::Scene(Engine* newEngine) {
 	//This object NEEDS to know what an engine is. If it doesn't, it defeats the point of having a scene object
 	this->giveEngine(newEngine);
 	this->setBehavior(Scene::defaultBehavior);
+	this->activeCamera = nullptr; //set up with a null camera
 	Scene::numscenes++; //increment the number of scenes
 }
 
