@@ -10,8 +10,10 @@ private:
 	int centerX, centerY; //center of the renderer
 	unsigned int framesW, framesH; //the number of horizontal and vertical frames
 
+	int rotation; //the angle by which the background is rotated
+
 	bool visible; //to toggle visibility of background
-	bool flagX, flagY; //flags indicate whether or not to perform a flip
+	bool xFlip, yFlip; //flags indicate whether or not to perform a flip
 
 	int frame; //the frame the background is drawn at
 
@@ -23,7 +25,7 @@ public:
 
 	void flipX(); //flip the background over the horizontal axis
 	void flipY(); //flip the background over the vertical axis
-	//void rotate(int); //rotate the image by a specified angle
+	void setRotation(int);  //rotate the image by a specified angle
 
 	void setPosition(int, int); //set position of the background
 	int getX() { return this->x; }; //return the x position of the background
@@ -33,6 +35,7 @@ public:
 	void setFrameCount(unsigned int, unsigned int); //set the number of horizontal and vertical frames
 	void setFrame(int); //set the current frame
 
+	//other stuff
 	void setSize(unsigned int, unsigned int);  //set the size of the background
 	unsigned int getW() { return this->w; }; //return the width of the background
 	unsigned int hetH() { return this->h; }; //retuen the height of the background

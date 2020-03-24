@@ -34,7 +34,7 @@ void Background::draw() {
 
 		//the subimage's width and height is based on the image's total size / number of images in corresponding direction
 		const int subimageW = this->storedSource->w / this->framesW;
-		const int subimageW = this->storedSource->w / this->framesW;
+		const int subimageH = this->storedSource->h / this->framesH;
 
 		//now we need to select the correct image based on this index
 		//calculate the image we want to grab accross using modulos and the width of the subimage
@@ -53,6 +53,50 @@ void Background::draw() {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
+		//apply if the rotation isn't zero
+		if (this->rotation != 0) {
+			//translate so center is at (0,0,0)
+			glTranslatef(subimageX + this->modposX + (subimageW/2), subimageY + this->modposY + (subimageH / 2) , 0);
+
+			//rotate the background a specified angle around the z-axis (2-D rotation)
+			glRotatef(this->rotation, 0.0, 0.0, 1.0);
+
+			//translate back to original position
+			glTranslatef(-(subimageX + this->modposX + (subimageW / 2)), -(subimageY + this->modposY + (subimageH / 2)), 0);
+		}
+
+		//we need to account for culling if a flip is to occur
+		if (this->xFlip || this->yFlip) { //change the culling
+			glFrontFace(GL_CCW); //cull counterclockwise if a flip occurs
+		}
+		if (this->xFlip && this->yFlip) {
+			glFrontFace(GL_CW); //cull clockwise if a double flip is present
+		}
+
+		//perform a horizontal flip if the xFlip bool is true
+		if (this->xFlip) {
+			//translate so center is at (0,0,0)
+			glTranslatef(subimageX + this->modposX + (subimageW / 2), subimageY + this->modposY + (subimageH / 2), 0);
+
+			//rotate the background a specified angle around the z-axis (2-D rotation)
+			glRotatef(180, 0.0, 1.0, 0.0);
+
+			//translate back to original position
+			glTranslatef(-(subimageX + this->modposX + (subimageW / 2)), -(subimageY + this->modposY + (subimageH / 2)), 0);
+		}
+
+		//perform a vertical flip if the yFlip bool is true
+		if (this->yFlip) {
+			//translate so center is at (0,0,0)
+			glTranslatef(subimageX + this->modposX + (subimageW / 2), subimageY + this->modposY + (subimageH / 2), 0);
+
+			//rotate the background a specified angle around the z-axis (2-D rotation)
+			glRotatef(180, 1.0, 0.0, 0.0);
+
+			//translate back to original position
+			glTranslatef(-(subimageX + this->modposX + (subimageW / 2)), -(subimageY + this->modposY + (subimageH / 2)), 0);
+		}
+
 		//set up the parameters for drawing the image so it uses the pixels
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -63,66 +107,75 @@ void Background::draw() {
 		//enable texture drawing
 		glEnable(GL_TEXTURE_2D);
 
-		if (flagX) {
+		// NOTE: The following is inefficient code for flipping.
+		// With 4 different blocks of versions of drawing, it became cumbersome to add in subimage code
+		// Used the above rotations to flip the image instead, to keep only one draw block
+
+		//*****************************************************************************************************
+
+		//if (xFlip && !yFlip) {
+		//	glBegin(GL_QUADS);
+		//	glTexCoord2i(this->storedSource->w, 0);				//top left of texture
+		//	glVertex2i(0, 0);	//top left of background
+
+		//	glTexCoord2i(0, 0);				//top right of texture
+		//	glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+
+		//	glTexCoord2i(0, this->storedSource->h);				//bottom right of texture
+		//	glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+
+		//	glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom left of texture
+		//	glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		//	glEnd();
+		//}
+		//else if (xFlip && !yFlip) {
+		//	glBegin(GL_QUADS);
+		//	glTexCoord2i(0, this->storedSource->h);				//top left of texture
+		//	glVertex2i(0, 0);	//top left of background
+
+		//	glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top right of texture
+		//	glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+
+		//	glTexCoord2i(this->storedSource->w, 0);				//bottom right of texture
+		//	glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+
+		//	glTexCoord2i(0, 0);				//bottom left of texture
+		//	glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		//	glEnd();
+		//}
+		//else if (xFlip && yFlip) {
+		//	glBegin(GL_QUADS);
+		//	glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top left of texture
+		//	glVertex2i(0, 0);	//top left of background
+
+		//	glTexCoord2i(0, this->storedSource->h);				//top right of texture
+		//	glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+
+		//	glTexCoord2i(0, 0);				//bottom right of texture
+		//	glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+
+		//	glTexCoord2i(this->storedSource->w, 0);				//bottom left of texture
+		//	glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+		//	glEnd();
+		//}
+		//else {
+
+		//***************************************************************************************************************
+
 			glBegin(GL_QUADS);
-			glTexCoord2i(this->storedSource->w, 0);				//top left of texture
-			glVertex2i(0, 0);	//top left of background
+					glTexCoord2i((subimageX), (subimageY));				//top left of subimage
+					glVertex2i(this->x + this->modposX, this->y + this->modposY);	//top left of background
 
-			glTexCoord2i(0, 0);				//top right of texture
-			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
+					glTexCoord2i((subimageX + subimageW), (subimageY));				//top right of subimage
+					glVertex2i(this->x + this->modposX + this->knownEngine->getResW(), this->y + this->modposY);	//top right of background
 
-			glTexCoord2i(0, this->storedSource->h);				//bottom right of texture
-			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
+					glTexCoord2i((subimageX + subimageW), (subimageY + subimageH));				//bottom right of subimage
+					glVertex2i(this->x + this->modposX + this->knownEngine->getResW(), this->y + this->modposY + this->knownEngine->getResH());	//bottom right of background
 
-			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom left of texture
-			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
+					glTexCoord2i((subimageW), (subimageY + subimageH));				//bottom left of subimage
+					glVertex2i(this->x + this->modposX, this->y + this->modposY + this->knownEngine->getResH());	//bottom left of background
 			glEnd();
-		}
-		else if (flagY) {
-			glBegin(GL_QUADS);
-			glTexCoord2i(0, this->storedSource->h);				//top left of texture
-			glVertex2i(0, 0);	//top left of background
-
-			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top right of texture
-			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
-
-			glTexCoord2i(this->storedSource->w, 0);				//bottom right of texture
-			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
-
-			glTexCoord2i(0, 0);				//bottom left of texture
-			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-			glEnd();
-		}
-		else if (flagX && flagY) {
-			glBegin(GL_QUADS);
-			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top left of texture
-			glVertex2i(0, 0);	//top left of background
-
-			glTexCoord2i(0, this->storedSource->h);				//top right of texture
-			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
-
-			glTexCoord2i(0, 0);				//bottom right of texture
-			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
-
-			glTexCoord2i(this->storedSource->w, 0);				//bottom left of texture
-			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-			glEnd();
-		}
-		else {
-			glBegin(GL_QUADS);
-			glTexCoord2i(0, 0);				//top left of texture
-			glVertex2i(0, 0);	//top left of background
-
-			glTexCoord2i(this->storedSource->w, 0);				//top right of texture
-			glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
-
-			glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom right of texture
-			glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
-
-			glTexCoord2i(0, this->storedSource->h);				//bottom left of texture
-			glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-			glEnd();
-		}
+		//}
 
 		glMatrixMode(GL_TEXTURE);
 		glLoadIdentity();
@@ -133,28 +186,20 @@ void Background::draw() {
 }
 
 void Background::flipX() {
-	if (this->flagX == false)
-		this->flagX = true;
-	else this->flagX = false;
+	if (this->xFlip == false)
+		this->xFlip = true;
+	else this->xFlip = false;
 }
 
 void Background::flipY() {
-	if (this->flagY == false)
-		this->flagY = true;
-	else this->flagY = false;
+	if (this->yFlip == false)
+		this->yFlip = true;
+	else this->yFlip = false;
 }
 
-//void Background::rotate(int angle) {
-//	//translate so center is at (0,0,0)
-//	glTranslatef(-this->centerX, -this->centerY, 0);
-//
-//	//rotate the background a specified angle around the z-axis (2-D rotation)
-//	glRotatef(angle, 0.0, 0.0, 1.0);
-//
-//	//translate back to original position
-//	glTranslatef(this->centerX, this->centerY, 0);
-//
-//}
+void Background::setRotation(int angle) {
+	this->rotation = angle;
+}
 
 void Background::setPosition(int x, int y) {
 	//set the x and y position of the background
@@ -163,9 +208,13 @@ void Background::setPosition(int x, int y) {
 }
 
 void Background::setSize(unsigned int w, unsigned int h) {
-	//set the width and height of background
-	this->w = w;
-	this->h = h;
+	//set the width and height of background (can't be less than 0)
+	if (w > 0) {
+		this->w = w;
+	}
+	if (h > 0) {
+		this->h = h;
+	}
 }
 
 void Background::execute() {
@@ -173,22 +222,26 @@ void Background::execute() {
 }
 
 Background::Background() {
-	//initialize everything to 0 and 1, we have no data for this yet
+	//initialize position to 0
 	this->x = 0;
 	this->y = 0;
-	this->w = 1;
-	this->h = 1;
+
+	//by default, width and height are the same as the renderer
+	//not sure what the problem is...
+	this->w = 1; //this->knownEngine->getResW();
+	this->h = 1; //this->knownEngine->getResW();
 
 	//set the frame to 0, we have no information regarding that yet
 	this->frame = 0;
 
+	//DOESN"T WORK
 	//obtain the center of the renderer
 	//this->centerX = (this->knownEngine->getResW() / 2);
 	//this->centerY = (this->knownEngine->getResH() / 2);
 
 	//by default, no flip should occur
-	this->flagX = false;
-	this->flagY = false;
+	this->xFlip = false;
+	this->yFlip = false;
 
 	//by default, the number of subimages accross and down would be 1
 	this->framesW = 1;

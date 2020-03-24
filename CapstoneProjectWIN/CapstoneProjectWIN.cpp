@@ -59,7 +59,7 @@ int main(int, char**)
     */
 
     static_cast<Background*>(newBackground)->flipY();
-
+    static_cast<Background*>(newBackground)->flipX();
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
