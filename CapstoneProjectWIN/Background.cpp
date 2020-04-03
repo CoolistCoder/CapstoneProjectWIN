@@ -66,15 +66,15 @@ void Background::draw() {
 		}
 
 		//we need to account for culling if a flip is to occur
-		if (this->xFlip || this->yFlip) { //change the culling
+		if (this->toggleFlipX || this->toggleFlipY) { //change the culling
 			glFrontFace(GL_CCW); //cull counterclockwise if a flip occurs
 		}
-		if (this->xFlip && this->yFlip) {
+		if (this->toggleFlipX && this->toggleFlipY) {
 			glFrontFace(GL_CW); //cull clockwise if a double flip is present
 		}
 
 		//perform a horizontal flip if the xFlip bool is true
-		if (this->xFlip) {
+		if (this->toggleFlipX) {
 			//translate so center is at (0,0,0)
 			glTranslatef(subimageX + this->modposX + (subimageW / 2), subimageY + this->modposY + (subimageH / 2), 0);
 
@@ -86,7 +86,7 @@ void Background::draw() {
 		}
 
 		//perform a vertical flip if the yFlip bool is true
-		if (this->yFlip) {
+		if (this->toggleFlipY) {
 			//translate so center is at (0,0,0)
 			glTranslatef(subimageX + this->modposX + (subimageW / 2), subimageY + this->modposY + (subimageH / 2), 0);
 
@@ -162,18 +162,20 @@ void Background::draw() {
 
 		//***************************************************************************************************************
 
+
+
 			glBegin(GL_QUADS);
 					glTexCoord2i((subimageX), (subimageY));				//top left of subimage
 					glVertex2i(this->x + this->modposX, this->y + this->modposY);	//top left of background
 
 					glTexCoord2i((subimageX + subimageW), (subimageY));				//top right of subimage
-					glVertex2i(this->x + this->modposX + this->knownEngine->getResW(), this->y + this->modposY);	//top right of background
+					glVertex2i(this->x + this->modposX + this->w, this->y + this->modposY);	//top right of background
 
 					glTexCoord2i((subimageX + subimageW), (subimageY + subimageH));				//bottom right of subimage
-					glVertex2i(this->x + this->modposX + this->knownEngine->getResW(), this->y + this->modposY + this->knownEngine->getResH());	//bottom right of background
+					glVertex2i(this->x + this->modposX + this->w, this->y + this->modposY + this->h);	//bottom right of background
 
 					glTexCoord2i((subimageW), (subimageY + subimageH));				//bottom left of subimage
-					glVertex2i(this->x + this->modposX, this->y + this->modposY + this->knownEngine->getResH());	//bottom left of background
+					glVertex2i(this->x + this->modposX, this->y + this->modposY + this->h);	//bottom left of background
 			glEnd();
 		//}
 
@@ -186,19 +188,27 @@ void Background::draw() {
 }
 
 void Background::flipX() {
-	if (this->xFlip == false)
-		this->xFlip = true;
-	else this->xFlip = false;
+	if (this->toggleFlipX == false)
+		this->toggleFlipX = true;
+	else this->toggleFlipX = false;
 }
 
 void Background::flipY() {
-	if (this->yFlip == false)
-		this->yFlip = true;
-	else this->yFlip = false;
+	if (this->toggleFlipY == false)
+		this->toggleFlipY = true;
+	else this->toggleFlipY = false;
 }
 
 void Background::setRotation(int angle) {
 	this->rotation = angle;
+}
+
+void Background::setToRenderSize() {
+	if (this->getEngine()) {
+		this->toggleRenderSize = true;
+		this->w = this->getEngine()->getResW();
+		this->h = this->getEngine()->getResH();
+	}
 }
 
 void Background::setPosition(int x, int y) {
@@ -226,22 +236,21 @@ Background::Background() {
 	this->x = 0;
 	this->y = 0;
 
-	//by default, width and height are the same as the renderer
-	//not sure what the problem is...
-	this->w = 1; //this->knownEngine->getResW();
-	this->h = 1; //this->knownEngine->getResW();
+	//by default, width and height are set to some default value
+	this->w = 640;
+	this->h = 480;
 
 	//set the frame to 0, we have no information regarding that yet
 	this->frame = 0;
 
 	//DOESN"T WORK
-	//obtain the center of the renderer
-	//this->centerX = (this->knownEngine->getResW() / 2);
-	//this->centerY = (this->knownEngine->getResH() / 2);
+	//obtain the center of the background
+	this->centerX = (this->w / 2);
+	this->centerY = (this->h / 2);
 
 	//by default, no flip should occur
-	this->xFlip = false;
-	this->yFlip = false;
+	this->toggleFlipX = false;
+	this->toggleFlipY = false;
 
 	//by default, the number of subimages accross and down would be 1
 	this->framesW = 1;
