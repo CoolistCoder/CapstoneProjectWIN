@@ -21,6 +21,22 @@ void Background::setFrame(int currentFrame) {
 void Background::draw() {
 	//we only want to implement the draw if the background has data
 	if (!this->empty()) {
+		//these values determine whether or not to use the renderer or custom values
+		int drawToX, drawToY, drawToW, drawToH;
+
+		//assign X and Y to the object's data
+		drawToX = this->x;
+		drawToY = this->y;
+
+		//if we want to use the renderer's data:
+		if (this->toRenderer && this->getEngine()) {
+			drawToW = this->getEngine()->getResW(); //get the renderer's width
+			drawToH = this->getEngine()->getResH(); //get the renderer's height
+		}
+		else { //if we can't get the renderer's information, simply set W and H to the stored values
+			drawToW = this->w;
+			drawToH = this->h;
+		}
 
 		//we need to get some data
 		const int total_subimages = this->framesW * this->framesH; //total subimages made from the image
@@ -56,13 +72,13 @@ void Background::draw() {
 		//apply if the rotation isn't zero
 		if (this->rotation != 0) {
 			//translate so center is at (0,0,0)
-			glTranslatef(subimageX + this->modposX + (subimageW/2), subimageY + this->modposY + (subimageH / 2) , 0);
+			glTranslatef(drawToX + this->modposX + (drawToW / 2), drawToY + this->modposY + (drawToH / 2), 0);
 
 			//rotate the background a specified angle around the z-axis (2-D rotation)
 			glRotatef(this->rotation, 0.0, 0.0, 1.0);
 
 			//translate back to original position
-			glTranslatef(-(subimageX + this->modposX + (subimageW / 2)), -(subimageY + this->modposY + (subimageH / 2)), 0);
+			glTranslatef(-(drawToX + this->modposX + (drawToW / 2)), -(drawToY + this->modposY + (drawToH / 2)), 0);
 		}
 
 		//we need to account for culling if a flip is to occur
@@ -76,25 +92,25 @@ void Background::draw() {
 		//perform a horizontal flip if the xFlip bool is true
 		if (this->toggleFlipX) {
 			//translate so center is at (0,0,0)
-			glTranslatef(subimageX + this->modposX + (subimageW / 2), subimageY + this->modposY + (subimageH / 2), 0);
+			glTranslatef(drawToX + this->modposX + (drawToW / 2), drawToY + this->modposY + (drawToH / 2), 0);
 
 			//rotate the background a specified angle around the z-axis (2-D rotation)
 			glRotatef(180, 0.0, 1.0, 0.0);
 
 			//translate back to original position
-			glTranslatef(-(subimageX + this->modposX + (subimageW / 2)), -(subimageY + this->modposY + (subimageH / 2)), 0);
+			glTranslatef(-(drawToX + this->modposX + (drawToW / 2)), -(drawToY + this->modposY + (drawToH / 2)), 0);
 		}
 
 		//perform a vertical flip if the yFlip bool is true
 		if (this->toggleFlipY) {
 			//translate so center is at (0,0,0)
-			glTranslatef(subimageX + this->modposX + (subimageW / 2), subimageY + this->modposY + (subimageH / 2), 0);
+			glTranslatef(drawToX + this->modposX + (drawToW / 2), drawToY + this->modposY + (drawToH / 2), 0);
 
 			//rotate the background a specified angle around the z-axis (2-D rotation)
 			glRotatef(180, 1.0, 0.0, 0.0);
 
 			//translate back to original position
-			glTranslatef(-(subimageX + this->modposX + (subimageW / 2)), -(subimageY + this->modposY + (subimageH / 2)), 0);
+			glTranslatef(-(drawToX + this->modposX + (drawToW / 2)), -(drawToY + this->modposY + (drawToH / 2)), 0);
 		}
 
 		//set up the parameters for drawing the image so it uses the pixels
@@ -164,18 +180,19 @@ void Background::draw() {
 
 
 
+
 			glBegin(GL_QUADS);
-					glTexCoord2i((subimageX), (subimageY));				//top left of subimage
-					glVertex2i(this->x + this->modposX, this->y + this->modposY);	//top left of background
+					glTexCoord2i((0), (0));				//top left of subimage
+					glVertex2i(drawToX + this->modposX, drawToY + this->modposY);	//top left of background
 
-					glTexCoord2i((subimageX + subimageW), (subimageY));				//top right of subimage
-					glVertex2i(this->x + this->modposX + this->w, this->y + this->modposY);	//top right of background
+					glTexCoord2i((2550), (0));				//top right of subimage
+					glVertex2i(drawToX + this->modposX + drawToW, drawToY + this->modposY);	//top right of background
 
-					glTexCoord2i((subimageX + subimageW), (subimageY + subimageH));				//bottom right of subimage
-					glVertex2i(this->x + this->modposX + this->w, this->y + this->modposY + this->h);	//bottom right of background
+					glTexCoord2i((2550), (3309));				//bottom right of subimage
+					glVertex2i(drawToX + this->modposX + drawToW, drawToY + this->modposY + drawToH);	//bottom right of background
 
-					glTexCoord2i((subimageW), (subimageY + subimageH));				//bottom left of subimage
-					glVertex2i(this->x + this->modposX, this->y + this->modposY + this->h);	//bottom left of background
+					glTexCoord2i((0), (3309));				//bottom left of subimage
+					glVertex2i(drawToX + this->modposX, drawToY + this->modposY + drawToH);	//bottom left of background
 			glEnd();
 		//}
 
@@ -204,11 +221,11 @@ void Background::setRotation(int angle) {
 }
 
 void Background::setToRenderSize() {
-	if (this->getEngine()) {
-		this->toggleRenderSize = true;
-		this->w = this->getEngine()->getResW();
-		this->h = this->getEngine()->getResH();
-	}
+	this->toRenderer= true;
+}
+
+void Background::detachFromRenderer() {
+	this->toRenderer = false;
 }
 
 void Background::setPosition(int x, int y) {

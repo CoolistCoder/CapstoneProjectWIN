@@ -14,7 +14,7 @@ private:
 
 	bool visible; //to toggle visibility of background
 	bool toggleFlipX, toggleFlipY; //flags indicate whether or not to perform a flip
-	bool toggleRenderSize;
+	bool toRenderer;
 
 	int frame; //the frame the background is drawn at
 
@@ -29,6 +29,7 @@ public:
 	void setRotation(int);  //rotate the image by a specified angle
 
 	void setToRenderSize();
+	void detachFromRenderer(); //detaches the object from the renderer
 
 	void setPosition(int, int); //set position of the background
 	int getX() { return this->x; }; //return the x position of the background

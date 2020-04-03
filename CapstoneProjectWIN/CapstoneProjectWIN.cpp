@@ -11,6 +11,7 @@ using namespace std;
 
 void sceneBehavior(Scene*);
 void boxBehavior(Entity*);
+void backgroundBehavior(Entity*);
 
 //Add command line parameters to allow SDL2 to recognize main
 int main(int, char**)
@@ -33,10 +34,10 @@ int main(int, char**)
 
     //create an entity
     //Entity* newbox = new Box;
-    Entity* newBackground = new Background;
+    Background* newBackground = new Background;
 
-    static_cast<Background*>(newBackground)->loadImage("North_Star_background.png");
-
+    newBackground->loadImage("North_Star_background.png");
+    
 
     //give the entity something to do
    // newbox->setBehavior(boxBehavior);
@@ -58,8 +59,10 @@ int main(int, char**)
     Mix_VolumeMusic(50); //setting volume to 50%
     */
 
-    static_cast<Background*>(newBackground)->flipY();
-    static_cast<Background*>(newBackground)->flipX();
+    //static_cast<Background*>(newBackground)->flipY();
+    //static_cast<Background*>(newBackground)->flipX();
+    newBackground->setToRenderSize();
+    newBackground->setBehavior(backgroundBehavior);
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
@@ -139,5 +142,16 @@ void boxBehavior(Entity* b) {
     temp->setPosition(x, y);
 
     //draw the box
+    temp->draw();
+}
+
+void backgroundBehavior(Entity* b) {
+    Background* temp = static_cast<Background*>(b);
+    static int rotation = 0;
+
+    rotation++;
+
+    temp->setRotation(rotation);
+
     temp->draw();
 }
