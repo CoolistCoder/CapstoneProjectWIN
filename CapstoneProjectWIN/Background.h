@@ -18,6 +18,7 @@ protected:
 	bool toggleFlipX, toggleFlipY; //flags indicate whether or not to perform a flip
 	bool toRenderer;
 	bool directTexture; //boolean determining if the texture should stretch directly to the edges of the object
+	bool independentFromCamera; //determines if the background scrolls with the camera
 
 	int frame; //the frame the background is drawn at
 
@@ -42,6 +43,10 @@ public:
 	int getY() { return this->y; }; //return the y position of the background
 
 	void setSubimage(int,int,int,int);
+
+	//camera functions
+	void hasCamera() { this->independentFromCamera = false; }; //attaches the object to the active camera
+	void noCamera() { this->independentFromCamera = true; }; //detaches the object from the active camera
 
 	//other stuff
 	void setSize(unsigned int, unsigned int);  //set the size of the background

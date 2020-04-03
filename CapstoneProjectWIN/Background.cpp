@@ -114,21 +114,33 @@ void Background::draw() {
 		//bind this texture to our image
 		glBindTexture(GL_TEXTURE_2D, this->image);
 
+		//use a surrogate variable to determine whether or not the camera follows
+		int cameraPosX, cameraPosY;
+		//determine if the background follows the camera
+		if (this->independentFromCamera) { //if they are independent, set to 0
+			cameraPosX = 0;
+			cameraPosY = 0;
+		}
+		else { //if they are not independent, just make them the same as the camera
+			cameraPosX = this->modposX;
+			cameraPosY = this->modposY;
+		}
+
 		//enable texture drawing
 		glEnable(GL_TEXTURE_2D);
 
 			glBegin(GL_QUADS);
 					glTexCoord2i(drawSubX, drawSubY);				//top left of subimage
-					glVertex2i(drawToX + this->modposX, drawToY + this->modposY);	//top left of background
+					glVertex2i(drawToX + cameraPosX, drawToY + cameraPosY);	//top left of background
 
 					glTexCoord2i(drawSubX + drawSubW, drawSubY);				//top right of subimage
-					glVertex2i(drawToX + this->modposX + drawToW, drawToY + this->modposY);	//top right of background
+					glVertex2i(drawToX + cameraPosX + drawToW, drawToY + cameraPosY);	//top right of background
 
 					glTexCoord2i(drawSubX + drawSubW, drawSubY + drawSubH);				//bottom right of subimage
-					glVertex2i(drawToX + this->modposX + drawToW, drawToY + this->modposY + drawToH);	//bottom right of background
+					glVertex2i(drawToX + cameraPosX + drawToW, drawToY + cameraPosY + drawToH);	//bottom right of background
 
 					glTexCoord2i(drawSubX, drawSubY + drawSubH);				//bottom left of subimage
-					glVertex2i(drawToX + this->modposX, drawToY + this->modposY + drawToH);	//bottom left of background
+					glVertex2i(drawToX + cameraPosX, drawToY + cameraPosY + drawToH);	//bottom left of background
 			glEnd();
 
 
@@ -203,6 +215,9 @@ Background::Background() {
 
 	//make this a direct texture by default
 	this->directTexture = true;
+
+	//by default, the background does not scroll with the camera
+	this->independentFromCamera = false;
 
 	//just get a single pixel
 	this->setSubimage(0,0,1,1);
