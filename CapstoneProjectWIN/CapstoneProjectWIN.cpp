@@ -62,6 +62,8 @@ int main(int, char**)
     //static_cast<Background*>(newBackground)->flipY();
     //static_cast<Background*>(newBackground)->flipX();
     newBackground->setToRenderSize();
+    newBackground->useSubimage();
+    newBackground->setSubimage(200, 300, 1000, 1000);
     newBackground->setBehavior(backgroundBehavior);
 
     //This is the while loop for the game logic
@@ -147,11 +149,11 @@ void boxBehavior(Entity* b) {
 
 void backgroundBehavior(Entity* b) {
     Background* temp = static_cast<Background*>(b);
-    static int rotation = 0;
+    //static int rotation = 0;
 
-    rotation++;
+    //rotation++;
 
-    temp->setRotation(rotation);
+    //temp->setRotation(rotation);
 
     temp->draw();
 }

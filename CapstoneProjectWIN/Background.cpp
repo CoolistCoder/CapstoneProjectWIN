@@ -5,24 +5,13 @@ void Background::defaultBehavior(Entity* e)
 	static_cast<Background*>(e)->draw();
 }
 
-void Background::setFrameCount(unsigned int across, unsigned int down) {
-	//this will subdivide the image, be careful when doing this!
-	this->framesW = across;
-	this->framesH = down;
-}
-
-void Background::setFrame(int currentFrame) {
-	//set the current frame based on the integer index
-	if (currentFrame >= 0) { //prevent this from being less than 0
-		this->frame = currentFrame;
-	}
-}
-
 void Background::draw() {
 	//we only want to implement the draw if the background has data
 	if (!this->empty()) {
 		//these values determine whether or not to use the renderer or custom values
 		int drawToX, drawToY, drawToW, drawToH;
+		//these values determine whether or not to use the image's original height and width
+		int drawSubX, drawSubY, drawSubW, drawSubH;
 
 		//assign X and Y to the object's data
 		drawToX = this->x;
@@ -38,6 +27,22 @@ void Background::draw() {
 			drawToH = this->h;
 		}
 
+		//if we want to use the image's data:
+		if (this->directTexture && !this->empty()) {
+			//set the subimage data to size of the image
+			drawSubX = 0;
+			drawSubY = 0;
+			drawSubW = this->storedSource->w;
+			drawSubH = this->storedSource->h;
+		}
+		else {
+			//use the custom subimage data
+			drawSubX = this->textureX;
+			drawSubY = this->textureY;
+			drawSubW = this->textureW;
+			drawSubH = this->textureH;
+		}
+
 		//we need to get some data
 		const int total_subimages = this->framesW * this->framesH; //total subimages made from the image
 
@@ -47,17 +52,6 @@ void Background::draw() {
 			//subtract 1 from frame until we have a valid index
 			this->frame--;
 		}
-
-		//the subimage's width and height is based on the image's total size / number of images in corresponding direction
-		const int subimageW = this->storedSource->w / this->framesW;
-		const int subimageH = this->storedSource->h / this->framesH;
-
-		//now we need to select the correct image based on this index
-		//calculate the image we want to grab accross using modulos and the width of the subimage
-		const int subimageX = (this->frame % this->framesW) * (this->storedSource->w / this->framesW);
-		//calculate the image we want to grab down using division and the height of the subimage
-		const int subimageY = (this->frame / this->framesW) * (this->storedSource->h / this->framesH);
-
 
 		glMatrixMode(GL_TEXTURE); //the texture matrix will be the matrix we will perform our operations on
 		glLoadIdentity(); //load the identity matrix
@@ -123,78 +117,20 @@ void Background::draw() {
 		//enable texture drawing
 		glEnable(GL_TEXTURE_2D);
 
-		// NOTE: The following is inefficient code for flipping.
-		// With 4 different blocks of versions of drawing, it became cumbersome to add in subimage code
-		// Used the above rotations to flip the image instead, to keep only one draw block
-
-		//*****************************************************************************************************
-
-		//if (xFlip && !yFlip) {
-		//	glBegin(GL_QUADS);
-		//	glTexCoord2i(this->storedSource->w, 0);				//top left of texture
-		//	glVertex2i(0, 0);	//top left of background
-
-		//	glTexCoord2i(0, 0);				//top right of texture
-		//	glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
-
-		//	glTexCoord2i(0, this->storedSource->h);				//bottom right of texture
-		//	glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
-
-		//	glTexCoord2i(this->storedSource->w, this->storedSource->h);				//bottom left of texture
-		//	glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		//	glEnd();
-		//}
-		//else if (xFlip && !yFlip) {
-		//	glBegin(GL_QUADS);
-		//	glTexCoord2i(0, this->storedSource->h);				//top left of texture
-		//	glVertex2i(0, 0);	//top left of background
-
-		//	glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top right of texture
-		//	glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
-
-		//	glTexCoord2i(this->storedSource->w, 0);				//bottom right of texture
-		//	glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
-
-		//	glTexCoord2i(0, 0);				//bottom left of texture
-		//	glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		//	glEnd();
-		//}
-		//else if (xFlip && yFlip) {
-		//	glBegin(GL_QUADS);
-		//	glTexCoord2i(this->storedSource->w, this->storedSource->h);				//top left of texture
-		//	glVertex2i(0, 0);	//top left of background
-
-		//	glTexCoord2i(0, this->storedSource->h);				//top right of texture
-		//	glVertex2i(this->knownEngine->getResW(), 0);	//top right of background
-
-		//	glTexCoord2i(0, 0);				//bottom right of texture
-		//	glVertex2i(this->knownEngine->getResW(), this->knownEngine->getResH());	//bottom right of background
-
-		//	glTexCoord2i(this->storedSource->w, 0);				//bottom left of texture
-		//	glVertex2i(0, this->knownEngine->getResH());	//bottom left of background
-		//	glEnd();
-		//}
-		//else {
-
-		//***************************************************************************************************************
-
-
-
-
 			glBegin(GL_QUADS);
-					glTexCoord2i((0), (0));				//top left of subimage
+					glTexCoord2i(drawSubX, drawSubY);				//top left of subimage
 					glVertex2i(drawToX + this->modposX, drawToY + this->modposY);	//top left of background
 
-					glTexCoord2i((2550), (0));				//top right of subimage
+					glTexCoord2i(drawSubX + drawSubW, drawSubY);				//top right of subimage
 					glVertex2i(drawToX + this->modposX + drawToW, drawToY + this->modposY);	//top right of background
 
-					glTexCoord2i((2550), (3309));				//bottom right of subimage
+					glTexCoord2i(drawSubX + drawSubW, drawSubY + drawSubH);				//bottom right of subimage
 					glVertex2i(drawToX + this->modposX + drawToW, drawToY + this->modposY + drawToH);	//bottom right of background
 
-					glTexCoord2i((0), (3309));				//bottom left of subimage
+					glTexCoord2i(drawSubX, drawSubY + drawSubH);				//bottom left of subimage
 					glVertex2i(drawToX + this->modposX, drawToY + this->modposY + drawToH);	//bottom left of background
 			glEnd();
-		//}
+
 
 		glMatrixMode(GL_TEXTURE);
 		glLoadIdentity();
@@ -234,6 +170,14 @@ void Background::setPosition(int x, int y) {
 	this->y = y;
 }
 
+void Background::setSubimage(int x, int y, int w, int h) {
+	//simply assign these values to the texture retrieval data
+	this->textureX = x;
+	this->textureY = y;
+	this->textureW = w;
+	this->textureH = h;
+}
+
 void Background::setSize(unsigned int w, unsigned int h) {
 	//set the width and height of background (can't be less than 0)
 	if (w > 0) {
@@ -256,6 +200,12 @@ Background::Background() {
 	//by default, width and height are set to some default value
 	this->w = 640;
 	this->h = 480;
+
+	//make this a direct texture by default
+	this->directTexture = true;
+
+	//just get a single pixel
+	this->setSubimage(0,0,1,1);
 
 	//set the frame to 0, we have no information regarding that yet
 	this->frame = 0;

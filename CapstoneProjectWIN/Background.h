@@ -4,17 +4,20 @@
 #include "Image.h"
 
 class Background : public Entity , public Image {
-private:
+protected:
 	int x, y; //the x and y positions of the background (should be the same as renderer)
 	unsigned int w, h; //the width and height of the background
 	int centerX, centerY; //center of the renderer
 	unsigned int framesW, framesH; //the number of horizontal and vertical frames
+
+	int textureX, textureY, textureW, textureH; //these are the subimage variables!
 
 	int rotation; //the angle by which the background is rotated
 
 	bool visible; //to toggle visibility of background
 	bool toggleFlipX, toggleFlipY; //flags indicate whether or not to perform a flip
 	bool toRenderer;
+	bool directTexture; //boolean determining if the texture should stretch directly to the edges of the object
 
 	int frame; //the frame the background is drawn at
 
@@ -31,13 +34,14 @@ public:
 	void setToRenderSize();
 	void detachFromRenderer(); //detaches the object from the renderer
 
+	void useImage() { this->directTexture = true; }; //this lets us use our image values
+	void useSubimage() { this->directTexture = false; }; //this lets us use our subimage values
+
 	void setPosition(int, int); //set position of the background
 	int getX() { return this->x; }; //return the x position of the background
 	int getY() { return this->y; }; //return the y position of the background
-	
-	//code for using subimages
-	void setFrameCount(unsigned int, unsigned int); //set the number of horizontal and vertical frames
-	void setFrame(int); //set the current frame
+
+	void setSubimage(int,int,int,int);
 
 	//other stuff
 	void setSize(unsigned int, unsigned int);  //set the size of the background
