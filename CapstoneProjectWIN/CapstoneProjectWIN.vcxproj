@@ -164,6 +164,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="ErrorLog.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Joystick.h" />
