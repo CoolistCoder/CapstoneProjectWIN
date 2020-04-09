@@ -4,8 +4,9 @@
 #include "Box.h"
 #include "Background.h"
 #include "Line.h"
-//#include "Sprite.h"
+#include "Sprite.h"
 #include "Camera.h"
+#include "Tile.h"
 #include <functional>
 #include <vector>
 
