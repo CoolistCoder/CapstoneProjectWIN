@@ -12,6 +12,7 @@ using namespace std;
 void sceneBehavior(Scene*);
 void boxBehavior(Entity*);
 void backgroundBehavior(Entity*);
+void tileBehavior(Entity*);
 
 //Add command line parameters to allow SDL2 to recognize main
 int main(int, char**)
@@ -34,9 +35,9 @@ int main(int, char**)
 
     //create an entity
     //Entity* newbox = new Box;
-    Background* newBackground = new Background;
+    Tile* newTile = new Tile;
 
-    newBackground->loadImage("North_Star_background.png");
+    newTile->loadImage("North_Star_background.png");
     
 
     //give the entity something to do
@@ -44,7 +45,7 @@ int main(int, char**)
 
     //give the box to the scene
     //scene1->addEntity(newbox);
-    scene1->addEntity(newBackground);
+    scene1->addEntity(newTile);
 
     //make the window full screen
     //mainEng->fullscreenWindow();
@@ -61,10 +62,9 @@ int main(int, char**)
 
     //static_cast<Background*>(newBackground)->flipY();
     //static_cast<Background*>(newBackground)->flipX();
-    newBackground->setToRenderSize();
-    newBackground->useSubimage();
-    newBackground->setSubimage(200, 300, 1000, 1000);
-    newBackground->setBehavior(backgroundBehavior);
+
+    newTile->setSize(100,150);
+    newTile->setBehavior(tileBehavior);
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
@@ -155,5 +155,23 @@ void backgroundBehavior(Entity* b) {
 
     //temp->setRotation(rotation);
 
+    temp->draw();
+}
+
+void tileBehavior(Entity* t) {
+    Tile* temp = static_cast<Tile*>(t);
+   
+    static int x = 0;
+    static int y = 0;
+    static int pause = 0;
+    pause++;
+    if (pause == 10) {
+        pause = 0;
+        if (x < 4)
+            x++;
+        if (y < 1)
+            y++;
+    }
+    temp->setPosition(x, y);
     temp->draw();
 }
