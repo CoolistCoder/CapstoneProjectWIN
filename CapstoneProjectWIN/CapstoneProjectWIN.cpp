@@ -13,6 +13,7 @@ void sceneBehavior(Scene*);
 void boxBehavior(Entity*);
 void backgroundBehavior(Entity*);
 void tileBehavior(Entity*);
+void cameraBehavior(Entity*);
 
 //Add command line parameters to allow SDL2 to recognize main
 int main(int, char**)
@@ -38,6 +39,7 @@ int main(int, char**)
     Tile* newTile = new Tile;
 
     newTile->loadImage("North_Star_background.png");
+    newTile->setFrameCount(2,2);
     
 
     //give the entity something to do
@@ -65,6 +67,17 @@ int main(int, char**)
 
     newTile->setSize(100,150);
     newTile->setBehavior(tileBehavior);
+    
+
+    //create a new camera to demonstrate the camera moving the entities
+    Camera* newcamera = new Camera();
+    newcamera->attachEntity(newTile); //give our camera the tile
+    newcamera->setBehavior(cameraBehavior);
+    scene1->addEntity(newcamera); //add the camera to the scene
+    scene1->setActiveCamera(newcamera);
+    newTile->setPriority(1);
+
+
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
@@ -174,4 +187,22 @@ void tileBehavior(Entity* t) {
     }
     temp->setPosition(x, y);
     temp->draw();
+}
+
+void cameraBehavior(Entity* c) {
+    Camera* temp = static_cast<Camera*>(c);
+    Tile* at = static_cast<Tile*>(temp->getAttachedEntity(0));
+
+    static int x = 0, y = 0;
+
+    x++;
+
+    //temp->focusTo(x, y);
+
+    /*
+    temp->focusTo(
+        (at->getPosX()* at->getPosW()) + at->getPosW() / 2 - (temp->getEngine()->getResW()/2), 
+        (at->getPosY()* at->getPosH()) + at->getPosH() / 2 - (temp->getEngine()->getResH() /2)
+   );
+    */
 }
