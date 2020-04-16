@@ -115,19 +115,18 @@ bool Tile::rendererCollision() {
 			std::cout << "2 overlap" << std::endl;
 			return false;	//tile is too far left
 		}
+
 		
-		//TODO make this work now
-		/*
-		if ((this->y - this->modposY) < this->viewary + this->viewarh) {
+		if ((this->y + this->h + this->modposY) < this->viewary) {
 			std::cout << "3 overlap" << std::endl;
 			return false;	//tile is too far down
 		}
-			
-		if ((this->x - this->modposX) < this->viewarx + this->viewarw) {
+		
+		if ((this->x + this->w + this->modposX) < this->viewarx) {
 			std::cout << "4 overlap" << std::endl;
 			return false;	//tile is too far right
 		}
-		*/
+		
 			
 		return true;
 

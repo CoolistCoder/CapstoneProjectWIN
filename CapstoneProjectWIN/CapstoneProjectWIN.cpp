@@ -79,10 +79,10 @@ int main(int, char**)
     scene1->addEntity(newcamera); //add the camera to the scene
     scene1->setActiveCamera(newcamera);
     newTile->setPriority(1);
-    //newcamera->sizeToRenderer();
-    newcamera->modifyOffset(0,0);
-    newcamera->toCustomSize(320,240);
-    newcamera->setViewArea(200,200,20,20);
+    newcamera->sizeToRenderer();
+    //newcamera->modifyOffset(0,0);
+    //newcamera->toCustomSize(320,240);
+    //newcamera->setViewArea(200,200,20,20);
 
     //create a box to check for the bounds of the camera
     Box* tempbox = new Box();
@@ -203,7 +203,7 @@ void tileBehavior(Entity* t) {
     }
     temp->setPosition(x, y);
     */
-    temp->setPosition(0,0);
+    temp->setPosition(1,1);
     temp->draw();
 }
 
@@ -214,7 +214,8 @@ void cameraBehavior(Entity* c) {
 
     static int x = 0, y = 0;
 
-    y--;
+    //y--;
+    //x--;
 
     temp->focusTo(x, y);
 
