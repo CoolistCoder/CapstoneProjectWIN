@@ -6,6 +6,9 @@ class Camera : public Entity {
 protected:
 	int x, y; //the x and y position of the camera
 	int w, h; //the widthe and height of the camera's area
+	bool isToRenderer; //this determines whether or not the width and height of the camera is to the renderer or not
+
+	int viewareaX, viewareaY, viewareaW, viewareaH; //this is the area the camera will allow entities to render within
 
 	static void defaultBehavior(Entity* e); //the default behavior of the camera
 
@@ -16,6 +19,9 @@ public:
 	int getY() { return this->y; }; //return the camera's y position
 	int getW() { return this->w; }; //return the camera's width
 	int getH() { return this->h; }; //return the camera's height
+	void toCustomSize(int, int); //makes the camera's render zone a custom size
+	bool getMode() { return this->isToRenderer; }; //returns the isToRenderer variable
+	void setViewArea(int, int, int, int);
 
 	void execute(); //camera's custom execute function
 

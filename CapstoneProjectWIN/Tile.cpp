@@ -93,18 +93,29 @@ bool Tile::collideAgainst(int x, int y, int w, int h) {
 }
 
 bool Tile::rendererCollision() {
+
+	/*
 	if (this->getEngine()) {//if we have an engine
-		if ((this->x) > (signed)this->getEngine()->getResW())
-			return false;	//return false if tile is out of bounds rightwards
-		if ((this->x + this->w) < 0)
-			return false;	//return false if tile is out of bounds leftwards
-		if ((this->y) > (signed)this->getEngine()->getResH())
-			return false;	//return false if tile is out of bounds downwards
-		if ((this->y + this->h) < 0)
-			return false;	//return false if tile is out of bounds upwards
+
 	}
 	//return true if the tile is within the rendering space
 	return true;
+	*/
+	//first, check and see if an engine is present
+	std::cout << this->modposX + this->renderAreaW << ", " << this->x + this->modposX << std::endl;
+	if (this->getEngine()) {
+		if ((this->y + this->h) < this->modposY)
+			return false;	//tile is too far up
+		if ((this->x + this->w) < this->modposX)
+			return false;	//tile is too far left
+		if ((this->y) > this->modposY + this->renderAreaH)
+			return false;	//tile is too far down
+		if ((this->x) > this->modposX + this->renderAreaW)
+			return false;	//tile is too far right
+		return true;
+
+	}
+	return false; //do not draw if no engine is present!!!!
 }
 
 void Tile::draw() {

@@ -14,6 +14,7 @@ protected:
 
 	//the camera-modified positions of Entities. Only entities that need them will use them
 	int modposX, modposY;
+	int renderAreaW, renderAreaH;
 
 	std::vector<Entity*> attachedEntities; //list of entities connected to this entity
 
@@ -38,6 +39,7 @@ public:
 	Engine* getEngine() { return this->knownEngine; }; //retrieve the engine known by the entity
 
 	void modifyOffset(int, int); //modify the modposX and modposY variables within the entity
+	void modifyRenderArea(int, int); //modify the renderAreaW and renderAreaH variables within the entity
 
 	virtual void execute() = 0; //pure virtual functio for executing the entity's stored behavior;
 

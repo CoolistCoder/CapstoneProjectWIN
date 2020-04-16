@@ -85,6 +85,14 @@ void Entity::modifyOffset(int x, int y) {
 	this->modposY = y;
 }
 
+void Entity::modifyRenderArea(int w, int h) {
+	if (w > 0 && h > 0) {
+		//just set the values
+		this->renderAreaW = w;
+		this->renderAreaH = h;
+	}
+}
+
 Entity::Entity() {
 	//TODO Auto-Generated constructor stub
 	this->priority = 0; //if priorities match, they're drawn in order of when they're added

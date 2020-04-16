@@ -6,7 +6,18 @@ void Box::defaultBehavior(Entity* e) {
 }
 
 void Box::draw() {
-	//TODO replace directdraw (immediate mode) mode with vertex mode
+	//create a surrogate variable to check and see if we need to make this independent from the camera or not
+	int camx, camy;
+	if (!this->independent) {
+		camx = this->modposX;
+		camy = this->modposY;
+	}
+	else {
+		camx = 0;
+		camy = 0;
+	}
+
+
 	//we only want to use our box drawing function if the visible value is true
 	if (this->visible) {
 		//we can largely copy the code we've used previously for the draw function
@@ -14,11 +25,13 @@ void Box::draw() {
 		glLoadIdentity();	//change the active identity to the modelview matrix
 		glBegin(GL_QUADS);	//draw quads
 				glColor4ub(this->r, this->g, this->b, this->a); //adjust the color values of the box beforehand
-				glVertex2i(this->x + this->modposX, this->y + this->modposY);	//top left
-				glVertex2i(this->x + this->w + this->modposX, this->y + this->modposY);	//bottom left
-				glVertex2i(this->x + this->w + this->modposX, this->y + this->h + this->modposY);	//bottom right
-				glVertex2i(this->x + this->modposX, this->y + this->h + this->modposX);	//top right
+				glVertex2i(this->x + camx, this->y + camy);	//top left
+				glVertex2i(this->x + this->w + camx, this->y + camy);	//bottom left
+				glVertex2i(this->x + this->w + camx, this->y + this->h + camy);	//bottom right
+				glVertex2i(this->x + camx, this->y + this->h + camy);	//top right
 		glEnd();	//stop drawing
+		//TODO remove this for efficiency
+		glColor4ub(255, 255, 255, 255);
 		//this will draw our box
 	}
 }

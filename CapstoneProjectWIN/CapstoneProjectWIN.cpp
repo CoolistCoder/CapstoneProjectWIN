@@ -25,6 +25,9 @@ int main(int, char**)
     //setting the resolution to a smaller area within the window
     mainEng->setResolution(1920 / 4, 1080 / 4); 
 
+    //slow down the frame rate
+    mainEng->setFPS(60);
+
     //adding a joystick to the engine.
     //if no joystick detected, this function should just exit with no problems
     Joystick testjoy;
@@ -76,8 +79,20 @@ int main(int, char**)
     scene1->addEntity(newcamera); //add the camera to the scene
     scene1->setActiveCamera(newcamera);
     newTile->setPriority(1);
+    //newcamera->sizeToRenderer();
+    newcamera->modifyOffset(0,0);
+    newcamera->toCustomSize(320,240);
 
+    //create a box to check for the bounds of the camera
+    Box* tempbox = new Box();
+    tempbox->setSize(newcamera->getW(), newcamera->getH());
+    tempbox->setPosition(newcamera->getX(), newcamera->getY());
+    tempbox->setColor(255, 0, 0);
+    tempbox->setTransparency(100);
+    scene1->addEntity(tempbox);
+    tempbox->independentFromCamera();
 
+    cout << newcamera->getW() << ", " << newcamera->getH() << endl;
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
@@ -173,7 +188,7 @@ void backgroundBehavior(Entity* b) {
 
 void tileBehavior(Entity* t) {
     Tile* temp = static_cast<Tile*>(t);
-   
+   /*
     static int x = 0;
     static int y = 0;
     static int pause = 0;
@@ -186,18 +201,21 @@ void tileBehavior(Entity* t) {
             y++;
     }
     temp->setPosition(x, y);
+    */
+    temp->setPosition(0,0);
     temp->draw();
 }
 
 void cameraBehavior(Entity* c) {
     Camera* temp = static_cast<Camera*>(c);
     Tile* at = static_cast<Tile*>(temp->getAttachedEntity(0));
+    temp->sizeToRenderer();
 
     static int x = 0, y = 0;
 
-    x++;
+    x--;
 
-    //temp->focusTo(x, y);
+    temp->focusTo(x, y);
 
     /*
     temp->focusTo(

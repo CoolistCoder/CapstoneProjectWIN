@@ -1,7 +1,8 @@
 #include "Camera.h"
 
 void Camera::defaultBehavior(Entity* e) {
-	//the camera doesn't need to do anything by default
+	//set the camera's size to the renderer
+	static_cast<Camera*>(e)->sizeToRenderer();
 }
 
 void Camera::focusTo(int x, int y) {
@@ -18,8 +19,26 @@ void Camera::sizeToRenderer() {
 	//make sure we have an engine to get this information from
 	if (this->getEngine()) {
 		//niw we need to get the inverse of the width and the height, as per how the camera works
-		this->w = -(signed)this->getEngine()->getResW();
-		this->h = -(signed)this->getEngine()->getResH();
+		this->isToRenderer = true; //this is now to the renderer so this becomes true
+		this->w = this->getEngine()->getResW();
+		this->h = this->getEngine()->getResH();
+	}
+}
+
+void Camera::toCustomSize(int w, int h) {
+	//TODO implement this later
+	//first, change the bool
+	this->isToRenderer = false;
+	this->w = w;
+	this->h = h;
+}
+
+void Camera::setViewArea(int x, int y, int w, int h){
+	if (x >= this->x && y >= this->y && w <= this->w && h <= this->h) {
+		this->viewareaX = x;
+		this->viewareaY = y;
+		this->viewareaW = w;
+		this->viewareaH = h;
 	}
 }
 
@@ -35,6 +54,8 @@ Camera::Camera() {
 	this->y = 0;
 	this->w = 0;
 	this->h = 0;
+
+	this->isToRenderer = true; //by default, the camera is simply to the same size as the renderer
 
 	//set the camera default behavior
 	this->setBehavior(Camera::defaultBehavior);

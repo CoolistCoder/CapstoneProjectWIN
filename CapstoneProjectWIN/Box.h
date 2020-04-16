@@ -6,6 +6,7 @@ private:
 	int x, y; //the x and y positions of the box
 	unsigned w, h; //the width and height of the box
 	bool visible;
+	bool independent;
 
 	Uint8 r, g, b, a; //the rgba values of the box
 
@@ -25,6 +26,9 @@ public:
 
 	void setColor(Uint8, Uint8, Uint8); //sets the color of the box
 	void setTransparency(Uint8); //sets the transparency of the box
+
+	void independentFromCamera() { this->independent = true; };
+	void dependentOnCamera() { this->independent = false; };
 
 	void execute(); //execute the box's stored behavior
 

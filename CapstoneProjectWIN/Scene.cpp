@@ -83,6 +83,7 @@ void Scene::execute() {
 		//if the camera exists, proceed to loop through all the entities and modify their positions
 		for (int i = 0; i < this->entitiesInScene.size(); i++) {
 			this->entitiesInScene.at(i)->modifyOffset(this->activeCamera->getX(), this->activeCamera->getY());
+			this->entitiesInScene.at(i)->modifyRenderArea(this->activeCamera->getW(), this->activeCamera->getH());
 		}
 	}
 
