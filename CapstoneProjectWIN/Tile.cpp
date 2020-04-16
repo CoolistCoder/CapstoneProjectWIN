@@ -102,16 +102,29 @@ bool Tile::rendererCollision() {
 	return true;
 	*/
 	//first, check and see if an engine is present
-	std::cout << this->modposX + this->renderAreaW << ", " << this->x + this->modposX << std::endl;
+	std::cout << this->x + this->w + this->modposX << ", " << this->modposX << std::endl;
+
 	if (this->getEngine()) {
-		if ((this->y + this->h) < this->modposY)
+		if ((this->modposY - this->h) < -this->modposY) {
+			std::cout << "1 is true" << std::endl;
 			return false;	//tile is too far up
-		if ((this->x + this->w) < this->modposX)
+		}
+			
+		if ((this->modposX - this->w) < -this->modposX) {
+			std::cout << "2 is true" << std::endl;
 			return false;	//tile is too far left
-		if ((this->y) > this->modposY + this->renderAreaH)
+		}
+			
+		if ((-this->modposY) > this->modposY + this->renderAreaH) {
+			std::cout << "3 is true" << std::endl;
 			return false;	//tile is too far down
-		if ((this->x) > this->modposX + this->renderAreaW)
+		}
+			
+		if ((-this->modposX) > this->modposX + this->renderAreaW) {
+			std::cout << "4 is true" << std::endl;
 			return false;	//tile is too far right
+		}
+			
 		return true;
 
 	}

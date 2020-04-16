@@ -84,6 +84,12 @@ void Scene::execute() {
 		for (int i = 0; i < this->entitiesInScene.size(); i++) {
 			this->entitiesInScene.at(i)->modifyOffset(this->activeCamera->getX(), this->activeCamera->getY());
 			this->entitiesInScene.at(i)->modifyRenderArea(this->activeCamera->getW(), this->activeCamera->getH());
+			this->entitiesInScene.at(i)->setViewData(
+				this->activeCamera->getviewX(),
+				this->activeCamera->getviewY(),
+				this->activeCamera->getviewW(),
+				this->activeCamera->getviewH()
+			);
 		}
 	}
 

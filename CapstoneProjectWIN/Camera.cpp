@@ -57,6 +57,8 @@ Camera::Camera() {
 
 	this->isToRenderer = true; //by default, the camera is simply to the same size as the renderer
 
+	this->setViewArea(0,0,0,0);
+
 	//set the camera default behavior
 	this->setBehavior(Camera::defaultBehavior);
 }

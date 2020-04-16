@@ -93,11 +93,24 @@ void Entity::modifyRenderArea(int w, int h) {
 	}
 }
 
+void Entity::setViewData(int x, int y, int w, int h) {
+	if (x >= this->viewarx && y >= this->viewary && w <= this->viewarw && h <= this->viewarh) {
+		this->viewarx = x;
+		this->viewary = y;
+		this->viewarw = w;
+		this->viewarh = h;
+	}
+}
+
 Entity::Entity() {
 	//TODO Auto-Generated constructor stub
 	this->priority = 0; //if priorities match, they're drawn in order of when they're added
 	this->knownJoystick = nullptr; //initially, there is no joystick
 	this->knownEngine = nullptr;
+	this->viewarx = 0;
+	this->viewary = 0;
+	this->viewarw = 0;
+	this->viewarh = 0;
 }
 
 Entity::~Entity() {

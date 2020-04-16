@@ -16,10 +16,13 @@ protected:
 	int modposX, modposY;
 	int renderAreaW, renderAreaH;
 
+	//the viewarea data
+	int viewarx, viewary, viewarw, viewarh;
+
 	std::vector<Entity*> attachedEntities; //list of entities connected to this entity
 
 public:
-	void setBehavior(void(Entity*)); //sets the behavior of the entity
+	virtual void setBehavior(void(Entity*)); //sets the behavior of the entity
 	
 	void setPriority(unsigned int p) { this->priority = p; }; //simply set this instance's priority index
 	unsigned int getPriority() { return this->priority; }; //simply return this instance's priority index
@@ -40,6 +43,7 @@ public:
 
 	void modifyOffset(int, int); //modify the modposX and modposY variables within the entity
 	void modifyRenderArea(int, int); //modify the renderAreaW and renderAreaH variables within the entity
+	void setViewData(int,int,int,int); //just set the viewdata of the entity
 
 	virtual void execute() = 0; //pure virtual functio for executing the entity's stored behavior;
 
