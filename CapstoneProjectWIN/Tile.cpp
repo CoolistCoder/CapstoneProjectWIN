@@ -102,28 +102,32 @@ bool Tile::rendererCollision() {
 	return true;
 	*/
 	//first, check and see if an engine is present
-	std::cout << this->x + this->w + this->modposX << ", " << this->modposX << std::endl;
+	std::cout << this->modposY << ", " << this->viewary + this->viewarh << std::endl;
 
 	if (this->getEngine()) {
-		if ((this->modposY - this->h) < -this->modposY) {
-			std::cout << "1 is true" << std::endl;
+		//derender if the tile surpasses h
+		if ((this->modposY + (this->y * this->h)) > this->viewary + this->viewarh) {
+			std::cout << "1 overlap" << std::endl;
 			return false;	//tile is too far up
 		}
-			
-		if ((this->modposX - this->w) < -this->modposX) {
-			std::cout << "2 is true" << std::endl;
+		//derender if the tile surpasses w	
+		if ((this->modposX + (this->x * this->w)) > this->viewarx + this->viewarw) {
+			std::cout << "2 overlap" << std::endl;
 			return false;	//tile is too far left
 		}
-			
-		if ((-this->modposY) > this->modposY + this->renderAreaH) {
-			std::cout << "3 is true" << std::endl;
+		
+		//TODO make this work now
+		/*
+		if ((this->y - this->modposY) < this->viewary + this->viewarh) {
+			std::cout << "3 overlap" << std::endl;
 			return false;	//tile is too far down
 		}
 			
-		if ((-this->modposX) > this->modposX + this->renderAreaW) {
-			std::cout << "4 is true" << std::endl;
+		if ((this->x - this->modposX) < this->viewarx + this->viewarw) {
+			std::cout << "4 overlap" << std::endl;
 			return false;	//tile is too far right
 		}
+		*/
 			
 		return true;
 

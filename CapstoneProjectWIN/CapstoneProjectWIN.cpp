@@ -82,11 +82,12 @@ int main(int, char**)
     //newcamera->sizeToRenderer();
     newcamera->modifyOffset(0,0);
     newcamera->toCustomSize(320,240);
+    newcamera->setViewArea(200,200,20,20);
 
     //create a box to check for the bounds of the camera
     Box* tempbox = new Box();
-    tempbox->setSize(newcamera->getW(), newcamera->getH());
-    tempbox->setPosition(newcamera->getX(), newcamera->getY());
+    tempbox->setSize(newcamera->getviewW(), newcamera->getviewH());
+    tempbox->setPosition(newcamera->getviewX(), newcamera->getviewY());
     tempbox->setColor(255, 0, 0);
     tempbox->setTransparency(100);
     scene1->addEntity(tempbox);
@@ -209,11 +210,11 @@ void tileBehavior(Entity* t) {
 void cameraBehavior(Entity* c) {
     Camera* temp = static_cast<Camera*>(c);
     Tile* at = static_cast<Tile*>(temp->getAttachedEntity(0));
-    temp->sizeToRenderer();
+    //temp->sizeToRenderer();
 
     static int x = 0, y = 0;
 
-    x--;
+    y--;
 
     temp->focusTo(x, y);
 

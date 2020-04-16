@@ -94,12 +94,12 @@ void Entity::modifyRenderArea(int w, int h) {
 }
 
 void Entity::setViewData(int x, int y, int w, int h) {
-	if (x >= this->viewarx && y >= this->viewary && w <= this->viewarw && h <= this->viewarh) {
+	//if (x >= this->viewarx && y >= this->viewary && w <= this->viewarw && h <= this->viewarh) {
 		this->viewarx = x;
 		this->viewary = y;
 		this->viewarw = w;
 		this->viewarh = h;
-	}
+	//}
 }
 
 Entity::Entity() {
