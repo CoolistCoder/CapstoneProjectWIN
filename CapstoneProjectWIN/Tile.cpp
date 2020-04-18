@@ -125,7 +125,7 @@ bool Tile::rendererCollision() {
 
 void Tile::draw() {
 	//we only want to implement the draw if the tile has data
-	if (!this->empty() /*TODO fix the rendercollision code*/) {
+	if (!this->empty() /*TODO this->rendererCollision()*/) {
 		//we need to get some data
 		const int total_subimages = this->framesW * this->framesH; //the total subimages made from the image
 
