@@ -166,6 +166,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Tilemap.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="robomb.wav" />

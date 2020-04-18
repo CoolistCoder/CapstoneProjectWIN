@@ -37,54 +37,29 @@ int main(int, char**)
     Scene* scene1 = new Scene(mainEng);
     scene1->setBehavior(sceneBehavior);
 
-    //create an entity
-    //Entity* newbox = new Box;
-    Tile* newTile = new Tile;
+    //Tile* newTile = new Tile;
 
-    newTile->loadImage("North_Star_background.png");
-    newTile->setFrameCount(2,2);
-    
-
-    //give the entity something to do
-   // newbox->setBehavior(boxBehavior);
-
-    //give the box to the scene
-    //scene1->addEntity(newbox);
-    scene1->addEntity(newTile);
-
-    //make the window full screen
-    //mainEng->fullscreenWindow();
-
-    //AUDIO TESTING
-    /*
-    Mix_Music* musicdata = nullptr; //this pointer will soon point to the music file
-    musicdata = Mix_LoadMUS("robomb.wav"); //load in the music(WAV file created by Alec)
-    if (!musicdata) {      //error message for if the music is not found
-        cout << "could not find music" << endl;
-    }
-    Mix_VolumeMusic(50); //setting volume to 50%
-    */
-
-    //static_cast<Background*>(newBackground)->flipY();
-    //static_cast<Background*>(newBackground)->flipX();
-
-    newTile->setSize(100,150);
-    newTile->setBehavior(tileBehavior);
+    //newTile->loadImage("North_Star_background.png");
+    //newTile->setFrameCount(2,2);
+    //scene1->addEntity(newTile);
+    //newTile->setSize(100,150);
+    //newTile->setBehavior(tileBehavior);
     
 
     //create a new camera to demonstrate the camera moving the entities
     Camera* newcamera = new Camera();
-    newcamera->attachEntity(newTile); //give our camera the tile
+    //newcamera->attachEntity(newTile); //give our camera the tile
     newcamera->setBehavior(cameraBehavior);
     scene1->addEntity(newcamera); //add the camera to the scene
     scene1->setActiveCamera(newcamera);
-    newTile->setPriority(1);
     newcamera->sizeToRenderer();
+    //newcamera->toCustomSize(320, 240);
     //newcamera->modifyOffset(0,0);
-    //newcamera->toCustomSize(320,240);
+
     //newcamera->setViewArea(200,200,20,20);
 
     //create a box to check for the bounds of the camera
+    /*
     Box* tempbox = new Box();
     tempbox->setSize(newcamera->getviewW(), newcamera->getviewH());
     tempbox->setPosition(newcamera->getviewX(), newcamera->getviewY());
@@ -92,8 +67,22 @@ int main(int, char**)
     tempbox->setTransparency(100);
     scene1->addEntity(tempbox);
     tempbox->independentFromCamera();
+    */
+    //tilemap test
+    int map[] = {
+        0, 0, 0, 0,
+        1, 1, 1, 1,
+        2, 2, 2, 2,
+        3, 3, 3, 3, 
+        4, 4, 4, 4
+    }; //this is our map data
 
-    cout << newcamera->getW() << ", " << newcamera->getH() << endl;
+    Tilemap* newtilemap = new Tilemap();
+    newtilemap->loadImage("North_Star_background.png");
+    scene1->addEntity(newtilemap);
+    newtilemap->createMap(map, 4 * 5);
+    newtilemap->allFrameCount(4, 5);
+    newtilemap->allTileSize(100, 100);
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
@@ -203,7 +192,7 @@ void tileBehavior(Entity* t) {
     }
     temp->setPosition(x, y);
     */
-    temp->setPosition(1,1);
+    //temp->setPosition(1,1);
     temp->draw();
 }
 
@@ -211,10 +200,11 @@ void cameraBehavior(Entity* c) {
     Camera* temp = static_cast<Camera*>(c);
     Tile* at = static_cast<Tile*>(temp->getAttachedEntity(0));
     //temp->sizeToRenderer();
+    //temp->toCustomSize(320, 240);
 
     static int x = 0, y = 0;
 
-    //y--;
+    y++;
     //x--;
 
     temp->focusTo(x, y);

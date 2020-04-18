@@ -32,7 +32,17 @@ void Camera::toCustomSize(int w, int h) {
 	this->isToRenderer = false;
 	this->w = w;
 	this->h = h;
-	this->setViewArea(this->x, this->y, this->w, this->h);
+
+	if (this->getEngine()) { //if the engine is recognized, center the view
+		this->setViewArea(
+		(this->getEngine()->getResW() / 2) - (this->w / 2),
+		(this->getEngine()->getResH() / 2) - (this->h / 2),
+		this->w, 
+		this->h);
+	}
+	else { //if the engine isn't recognized, just put it up in the top left corner
+		this->setViewArea(this->x, this->y, this->w, this->h);
+	}
 }
 
 void Camera::setViewArea(int x, int y, int w, int h){

@@ -93,37 +93,26 @@ bool Tile::collideAgainst(int x, int y, int w, int h) {
 }
 
 bool Tile::rendererCollision() {
-
-	/*
-	if (this->getEngine()) {//if we have an engine
-
-	}
-	//return true if the tile is within the rendering space
-	return true;
-	*/
 	//first, check and see if an engine is present
-	std::cout << this->modposY << ", " << this->viewary + this->viewarh << std::endl;
-
 	if (this->getEngine()) {
 		//derender if the tile surpasses h
 		if ((this->modposY + (this->y * this->h)) > this->viewary + this->viewarh) {
-			std::cout << "1 overlap" << std::endl;
+			//std::cout << "1 overlap" << std::endl;
 			return false;	//tile is too far up
 		}
 		//derender if the tile surpasses w	
 		if ((this->modposX + (this->x * this->w)) > this->viewarx + this->viewarw) {
-			std::cout << "2 overlap" << std::endl;
+			//std::cout << "2 overlap" << std::endl;
 			return false;	//tile is too far left
 		}
-
 		
 		if ((this->y + this->h + this->modposY) < this->viewary) {
-			std::cout << "3 overlap" << std::endl;
+			//std::cout << "3 overlap" << std::endl;
 			return false;	//tile is too far down
 		}
 		
 		if ((this->x + this->w + this->modposX) < this->viewarx) {
-			std::cout << "4 overlap" << std::endl;
+			//std::cout << "4 overlap" << std::endl;
 			return false;	//tile is too far right
 		}
 		
@@ -136,8 +125,7 @@ bool Tile::rendererCollision() {
 
 void Tile::draw() {
 	//we only want to implement the draw if the tile has data
-	if (!this->empty() && this->rendererCollision()) {
-
+	if (!this->empty() /*TODO fix the rendercollision code*/) {
 		//we need to get some data
 		const int total_subimages = this->framesW * this->framesH; //the total subimages made from the image
 
@@ -230,6 +218,8 @@ void Tile::draw() {
 
 		//must disable textures before we do anything else to prevent opengl from getting confused with our textures
 		glDisable(GL_TEXTURE_2D);
+
+
 
 	}
 }

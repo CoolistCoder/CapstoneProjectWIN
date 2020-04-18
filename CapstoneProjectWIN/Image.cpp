@@ -54,6 +54,7 @@ void Image::loadImage(const char* imageName) {
 			GL_UNSIGNED_BYTE,	//this is what the data will be read as
 			this->storedSource->pixels //read the data
 		);
+		this->imagename = imageName;
 	}
 	else {
 		//if the source image wasn't found, just toss everything
@@ -77,6 +78,11 @@ bool Image::empty() {
 	return false;
 }
 
+void Image::shareImage(Image* img) {
+	this->storedSource = img->storedSource; //copy the source pointer
+	this->image = img->image; //copy the data
+}
+
 Image::Image() {
 	this->storedSource = nullptr; //this is a pointer, init to nullptr
 	this->image = 0; //because this is an integer at heart, we can initialize it to 0
@@ -88,12 +94,19 @@ Image::~Image() {
 	//automatically clean up the image
 	if (!this->empty()) {
 		//if the image isn't empty, delete everything
-		//first, delete the image we wanted to draw
-		glDeleteTextures(1, &this->imageHeight);
-		//then, delete the source image stored in the memory
-		SDL_FreeSurface(this->storedSource);
-		//now set both to nullptr
-		this->image = 0;
-		this->storedSource = nullptr;
+		if (this->image) { //if there is data in the image variable
+			//first, delete the image we wanted to draw
+			glDeleteTextures(1, &this->imageHeight);
+			//now set both to nullptr
+			this->image = 0;
+		}
+		if (this->storedSource) { //if there is data in the source image variable
+			//then, delete the source image stored in the memory
+			SDL_FreeSurface(this->storedSource);
+			this->storedSource = nullptr;
+		}
+
+
+
 	}
 }

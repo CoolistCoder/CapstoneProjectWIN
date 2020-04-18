@@ -45,6 +45,17 @@ public:
 	void modifyRenderArea(int, int); //modify the renderAreaW and renderAreaH variables within the entity
 	void setViewData(int,int,int,int); //just set the viewdata of the entity
 
+	//Retrieve the camera info
+	int getViewX() {return this->viewarx;};
+	int getViewY() { return this->viewary; };
+	int getViewW() { return this->viewarw; };
+	int getViewH() { return this->viewarh; };
+	int getmodposX() { return this->modposX; };
+	int getmodposY() { return this->modposY; };
+	int getAreaW() { return this->renderAreaW; };
+	int getAreaH() { return this->renderAreaH; };
+
+
 	virtual void execute() = 0; //pure virtual functio for executing the entity's stored behavior;
 
 	Entity();
