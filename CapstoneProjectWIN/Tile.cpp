@@ -5,8 +5,8 @@ void Tile::defaultBehavior(Entity* e) {
 }
 
 void Tile::setPosition(int x, int y) {
-	this->x = x;
-	this->y = y;
+	this->x = x * this->w;
+	this->y = y * this->h;
 }
 
 void Tile::setSize(int w, int h) {
@@ -96,12 +96,12 @@ bool Tile::rendererCollision() {
 	//first, check and see if an engine is present
 	if (this->getEngine()) {
 		//derender if the tile surpasses h
-		if ((this->modposY + (this->y * this->h)) > this->viewary + this->viewarh) {
+		if ((this->modposY + (this->y)) > this->viewary + this->viewarh) {
 			//std::cout << "1 overlap" << std::endl;
 			return false;	//tile is too far up
 		}
 		//derender if the tile surpasses w	
-		if ((this->modposX + (this->x * this->w)) > this->viewarx + this->viewarw) {
+		if ((this->modposX + (this->x)) > this->viewarx + this->viewarw) {
 			//std::cout << "2 overlap" << std::endl;
 			return false;	//tile is too far left
 		}
@@ -125,7 +125,7 @@ bool Tile::rendererCollision() {
 
 void Tile::draw() {
 	//we only want to implement the draw if the tile has data
-	if (!this->empty() /*TODO this->rendererCollision()*/) {
+	if (!this->empty() && this->rendererCollision()) {
 		//we need to get some data
 		const int total_subimages = this->framesW * this->framesH; //the total subimages made from the image
 
@@ -195,16 +195,16 @@ void Tile::draw() {
 		//begin drawing
 		glBegin(GL_QUADS);
 		glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
-		glVertex2i((this->x * this->w) + this->modposX, (this->y * this->h) + this->modposY); //top left of tile
+		glVertex2i((this->x) + this->modposX, (this->y) + this->modposY); //top left of tile
 
 		glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
-		glVertex2i((this->x * this->w) + this->w + this->modposX, (this->y * this->h) + this->modposY); //top right of tile
+		glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->modposY); //top right of tile
 
 		glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
-		glVertex2i((this->x * this->w) + this->w + this->modposX, (this->y * this->h) + this->h + this->modposY); //bottom right of tile
+		glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->h + this->modposY); //bottom right of tile
 
 		glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
-		glVertex2i((this->x * this->w) + this->modposX, (this->y * this->h) + this->h + this->modposY); //bottom left of tile
+		glVertex2i((this->x) + this->modposX, (this->y) + this->h + this->modposY); //bottom left of tile
 
 		glEnd();
 
