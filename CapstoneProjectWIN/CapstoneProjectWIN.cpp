@@ -69,7 +69,7 @@ int main(int, char**)
     tempbox->independentFromCamera();
     */
     //tilemap test
-    int map[] = {
+    static int map[] = {
         0, 0, 0, 0,
         1, 1, 1, 1,
         2, 2, 2, 2,
@@ -78,11 +78,12 @@ int main(int, char**)
     }; //this is our map data
 
     Tilemap* newtilemap = new Tilemap();
-    newtilemap->loadImage("North_Star_background.png");
+    newtilemap->loadImage("num.png");
     scene1->addEntity(newtilemap);
     newtilemap->createMap(map, 4 * 5);
-    newtilemap->allFrameCount(4, 5);
-    newtilemap->allTileSize(100, 100);
+    newtilemap->allFrameCount(2, 2);
+    
+    newtilemap->allTileSize(25, 25);
 
     //This is the while loop for the game logic
     while (mainEng->getRunning()) { //loop will continue to run and update screen until 
