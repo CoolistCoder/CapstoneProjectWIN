@@ -39,8 +39,8 @@ void Tilemap::drawmap() {
         for (unsigned int i = 0; i < this->tiles.size(); i++) {
             this->tiles.at(i)->setPosition
             (
-                i,
-                i
+                i % this->mapW,
+                i / this->mapW
             );
 
             this->tiles.at(i)->modifyOffset(this->modposX, this->modposY);
