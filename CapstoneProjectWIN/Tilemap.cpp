@@ -22,14 +22,14 @@ void Tilemap::createMap(int* arr, unsigned int arrsize) {
 void Tilemap::allTileSize(int w, int h) {
     //go through and give each tile a universal size
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
-        this->tiles.at(i)->setSize(w,h);
+        this->tiles[i]->setSize(w,h);
     }
 }
 
 void Tilemap::allFrameCount(int a, int d) {
     //go through and set each tile's frame count
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
-        this->tiles.at(i)->setFrameCount(a,d);
+        this->tiles[i]->setFrameCount(a,d);
     }
 }
 
@@ -37,17 +37,17 @@ void Tilemap::drawmap() {
     if (this->getEngine()) { //Check to see if we have a valid engine FIRST
         //go through each tile stored in our vector and draw it
         for (unsigned int i = 0; i < this->tiles.size(); i++) {
-            this->tiles.at(i)->setPosition
+            this->tiles[i]->setPosition
             (
                 i % this->mapW,
                 i / this->mapW
             );
 
-            this->tiles.at(i)->modifyOffset(this->modposX, this->modposY);
-            this->tiles.at(i)->modifyRenderArea(this->renderAreaW, this->renderAreaH);
-            this->tiles.at(i)->setViewData(this->viewarx, this->viewary, this->viewarw, this->viewarh);
+            this->tiles[i]->modifyOffset(this->modposX, this->modposY);
+            this->tiles[i]->modifyRenderArea(this->renderAreaW, this->renderAreaH);
+            this->tiles[i]->setViewData(this->viewarx, this->viewary, this->viewarw, this->viewarh);
 
-            this->tiles.at(i)->draw();
+            this->tiles[i]->draw();
         }
     }
 }
@@ -70,7 +70,7 @@ Tilemap::Tilemap() {
 Tilemap::~Tilemap() {
     //TODO implement the free
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
-        if (this->tiles.at(i)) { //check to see if a tile is present at a point
+        if (this->tiles[i]) { //check to see if a tile is present at a point
             //delete this->tiles.at(i); //empty the tiles from the vector
         }
         //this->tiles.clear(); //clear out all empty tiles

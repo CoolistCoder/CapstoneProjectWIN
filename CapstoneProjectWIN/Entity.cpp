@@ -23,7 +23,7 @@ void Entity::attachEntity(Entity* newEntity) {
 	//but we don't want multiple instances so check first
 	for (unsigned int i = 0; i < this->attachedEntities.size(); i++) {
 		//simply break if a match is found
-		if (this->attachedEntities.at(i) == newEntity)
+		if (this->attachedEntities[i] == newEntity)
 			return;
 	}
 	//otherwise attach
@@ -39,7 +39,7 @@ void Entity::coupleEntity(Entity* newEntity) {
 Entity* Entity::getAttachedEntity(unsigned int index) {
 	//this will return nullptr if the index is not valid
 	if (index < this->attachedEntities.size()) {
-		return this->attachedEntities.at(index); //if it is valud, return the entity at given index
+		return this->attachedEntities[index]; //if it is valud, return the entity at given index
 	}
 	return nullptr;
 }
@@ -48,7 +48,7 @@ void Entity::detachEntity(Entity* e) {
 	//this will find which entity the developer would like to detach
 	//simply iterate, find if the addresses match, and handle things accordingly
 	for (unsigned int i = 0; i < this->attachedEntities.size(); i++) {
-		if (this->attachedEntities.at(i) == e) {
+		if (this->attachedEntities[i] == e) {
 			//if we have a match, then detach and return
 			this->attachedEntities.erase(this->attachedEntities.begin() + i);
 			return; //immediately return
@@ -62,7 +62,7 @@ void Entity::decoupleEntity(Entity* e) {
 
 	//first we need to detach this entity from the one we found
 	for (unsigned int i = 0; i < e->attachedEntities.size(); i++) {
-		if (e->attachedEntities.at(i) == this) {
+		if (e->attachedEntities[i] == this) {
 			//if found, remove it and break from the loop
 			e->attachedEntities.erase(e->attachedEntities.begin() + i);
 			break;
@@ -71,7 +71,7 @@ void Entity::decoupleEntity(Entity* e) {
 	//nothing will happen if this is not found
 
 	for (unsigned int i = 0; i < this->attachedEntities.size(); i++) {
-		if (this->attachedEntities.at(i) == e) {
+		if (this->attachedEntities[i] == e) {
 			//if we have a match, then detach and return
 			this->attachedEntities.erase(this->attachedEntities.begin() + i);
 			return; //immediately return

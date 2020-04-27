@@ -330,9 +330,9 @@ void Engine::addJoystick(Joystick* newjoystick) {
 Joystick* Engine::getJoystick(unsigned int index) {
 	if (!this->alljoysticks.empty()) {
 		if (index < this->alljoysticks.size()) {
-			return this->alljoysticks.at(index);
+			return this->alljoysticks[index];
 		}
-		return this->alljoysticks.at(0);
+		return this->alljoysticks[0];
 	}
 	return nullptr;
 }
