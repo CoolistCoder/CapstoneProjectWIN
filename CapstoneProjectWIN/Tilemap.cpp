@@ -5,6 +5,8 @@ void Tilemap::defaultBehavior(Entity* e) {
 }
 
 void Tilemap::createMap(int* arr, unsigned int arrsize) {
+    //first empty out the map
+    this->clearMap();
     if (!this->empty() && this->getEngine()) {
         Tile* newtile; //generate our tile pointer to add our data to the tilemap
         //create a for loop to determine what attribs to give our tile
@@ -33,6 +35,12 @@ void Tilemap::allFrameCount(int a, int d) {
     }
 }
 
+void Tilemap::setPosition(int x, int y) {
+    //all this needs to do is change the x and y variables in the object
+    this->mapX = x;
+    this->mapY = y;
+}
+
 void Tilemap::drawmap() {
     if (this->getEngine()) { //Check to see if we have a valid engine FIRST
         //go through each tile stored in our vector and draw it
@@ -56,6 +64,21 @@ void Tilemap::execute() {
     this->storedBehavior(this);
 }
 
+void Tilemap::clearMap() {
+    for (unsigned int i = 0; i < this->tiles.size(); i++) {
+        this->tiles.at(i)->nullify(); //nullify the images first
+        delete this->tiles.at(i); //empty the tiles from the vector
+    }
+    this->tiles.clear(); //clear out all empty tiles
+}
+
+void Tilemap::setSize(int w, int h) {
+    if (w > 0 && h > 0) { //just make sure w/h is > 0 before assignment
+        this->mapW = w;
+        this->mapH = h;
+    }
+}
+
 Tilemap::Tilemap() {
     //set data to defaults
     this->mapX = 0;
@@ -70,9 +93,9 @@ Tilemap::Tilemap() {
 Tilemap::~Tilemap() {
     //TODO implement the free
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
-        if (this->tiles[i]) { //check to see if a tile is present at a point
-            //delete this->tiles.at(i); //empty the tiles from the vector
-        }
-        //this->tiles.clear(); //clear out all empty tiles
+        this->tiles.at(i)->nullify(); //nullify the images first
+        delete this->tiles.at(i); //empty the tiles from the vector
     }
+    this->tiles.clear(); //clear out all empty tiles
+    std::cout << "Tilemap deleted" << std::endl;
 }

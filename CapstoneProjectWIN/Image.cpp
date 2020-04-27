@@ -83,11 +83,33 @@ void Image::shareImage(Image* img) {
 	this->image = img->image; //copy the data
 }
 
+void Image::nullify() {
+	this->storedSource = nullptr; //nullify the source
+	this->image = 0; //nullify the image
+}
+
+void Image::modifyColor(Uint8 r, Uint8 g, Uint8 b) {
+	//simply set the r, g, and b values of the modcolor variables
+	this->r = r;
+	this->g = g;
+	this->b = b;
+}
+
+void Image::modifyAlpha(Uint8 a) {
+	//simply set the alpha transparency variable to a
+	this->a = a;
+}
+
 Image::Image() {
 	this->storedSource = nullptr; //this is a pointer, init to nullptr
 	this->image = 0; //because this is an integer at heart, we can initialize it to 0
 	this->imageWidth = 0;
 	this->imageHeight = 0;
+
+	this->r = 255;
+	this->g = 255;
+	this->b = 255;
+	this->a = 255;
 }
 
 Image::~Image() {
