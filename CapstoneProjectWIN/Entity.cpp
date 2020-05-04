@@ -111,6 +111,13 @@ Entity::Entity() {
 	this->viewary = 0;
 	this->viewarw = 0;
 	this->viewarh = 0;
+
+	this->assignedCamera = false;
+
+	this->modposX = 0;
+	this->modposY = 0;
+	this->renderAreaW = 0;
+	this->renderAreaH = 0;
 }
 
 Entity::~Entity() {

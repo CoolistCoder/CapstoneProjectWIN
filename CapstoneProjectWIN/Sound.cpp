@@ -143,11 +143,17 @@ void Sound::resume() {
 	//nothing will happen if neither is true
 }
 
-bool Sound::isPlaying() {
-	if (Mix_Playing(this->soundChannel) || Mix_PlayingMusic()) { //get if anything is playing
-		return true;
+bool Sound::getPlaying() {
+	//first, check to see if this is music or sound
+	if (this->isMusic) {
+		//if this is music we want to check to see if the music channel is being played
+		return Mix_PlayingMusic(); //just return playingmusic
 	}
-	return false;
+	else if (this->isSound) {
+		//if this is sound we want to check to see if the sound channel is being played
+		return Mix_Playing(this->soundChannel); //just check to see if the sound channel is playing
+	}
+	return false; //by default nothing returns
 }
 
 

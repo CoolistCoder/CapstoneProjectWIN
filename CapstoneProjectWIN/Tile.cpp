@@ -43,27 +43,27 @@ void Tile::toggleHorizontalFlip() {
 	else this->HFlip = false;
 }
 
-//bool Tile::collideAgainst(Sprite* spr) {
-//	//like the collideAgainst code with the individual points, but for a sprite
-//	if (spr) {
-//		//we need to compare the values given with the sprite
-//		if ((this->y + this->h) < spr->y)
-//			//return false if the sprite is too far up
-//			return false;
-//		if (this->y > (spr->y + spr->h))
-//			//return false if the sprite is too far down
-//			return false;
-//		if ((this->x + this->w) < spr->x)
-//			//return false if the sprite is too far left
-//			return false;
-//		if (this->x > (spr->x + spr->w))
-//			//return false if the sprite is too far right
-//			return false;
-//		//return true if the values overlap
-//		return true;
-//	}
-//	return false;
-//}
+bool Tile::collideAgainst(Sprite* spr) {
+	//like the collideAgainst code with the individual points, but for a sprite
+	if (spr) {
+		//we need to compare the values given with the sprite
+		if ((this->y + this->h) < spr->getPosY())
+			//return false if the sprite is too far up
+			return false;
+		if (this->y > (spr->getPosY() + spr->getPosH()))
+			//return false if the sprite is too far down
+			return false;
+		if ((this->x + this->w) < spr->getPosX())
+			//return false if the sprite is too far left
+			return false;
+		if (this->x > (spr->getPosX() + spr->getPosW()))
+			//return false if the sprite is too far right
+			return false;
+		//return true if the values overlap
+		return true;
+	}
+	return false;
+}
 
 bool Tile::collideAgainst(int x, int y) {
 	//simply check to see if these values are within the box
@@ -194,17 +194,19 @@ void Tile::draw() {
 		//TODO IMPLEMENT THE SUBIMAGE DRAWING
 		//begin drawing
 		glBegin(GL_QUADS);
-		glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
-		glVertex2i((this->x) + this->modposX, (this->y) + this->modposY); //top left of tile
+			glColor4ub(this->r, this->g, this->b, this->a); //set the colors of the entity beforehand
 
-		glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
-		glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->modposY); //top right of tile
+			glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
+			glVertex2i((this->x) + this->modposX, (this->y) + this->modposY); //top left of tile
 
-		glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
-		glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->h + this->modposY); //bottom right of tile
+			glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
+			glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->modposY); //top right of tile
 
-		glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
-		glVertex2i((this->x) + this->modposX, (this->y) + this->h + this->modposY); //bottom left of tile
+			glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
+			glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->h + this->modposY); //bottom right of tile
+
+			glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
+			glVertex2i((this->x) + this->modposX, (this->y) + this->h + this->modposY); //bottom left of tile
 
 		glEnd();
 
@@ -218,9 +220,6 @@ void Tile::draw() {
 
 		//must disable textures before we do anything else to prevent opengl from getting confused with our textures
 		glDisable(GL_TEXTURE_2D);
-
-
-
 	}
 }
 

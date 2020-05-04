@@ -165,6 +165,13 @@ void Background::flipY() {
 }
 
 void Background::setRotation(int angle) {
+	//adjust the angle of rotation so that it is valid
+	while (angle > 360) { //decrease the angle of rotation until it is valid
+		angle -= 360;
+	}
+	while (angle < 0) {
+		angle += 360; //increase the angle of rotation until it is valid
+	}
 	this->rotation = angle;
 }
 

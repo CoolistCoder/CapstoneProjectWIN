@@ -90,6 +90,7 @@ void Scene::execute() {
 				this->activeCamera->getviewW(),
 				this->activeCamera->getviewH()
 			);
+			this->entitiesInScene[i]->assigned(); //now we have a camera, so we can say the entity has been assigned
 		}
 	}
 

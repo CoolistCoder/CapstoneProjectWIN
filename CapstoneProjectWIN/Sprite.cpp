@@ -169,17 +169,19 @@ void Sprite::draw() {
 		//TODO IMPLEMENT THE SUBIMAGE DRAWING
 		//begin drawing
 		glBegin(GL_QUADS);
-		glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
-		glVertex2i(this->x + this->modposX, this->y + this->modposY); //top left of sprite
+			glColor4ub(this->r, this->g, this->b, this->a); //set the colors of the entity beforehand
 
-		glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
-		glVertex2i(this->x + this->w + this->modposX, this->y + this->modposY); //top right of sprite
+			glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
+			glVertex2i(this->x + this->modposX, this->y + this->modposY); //top left of sprite
 
-		glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
-		glVertex2i(this->x + this->w + this->modposX, this->y + this->h + this->modposY); //bottom right of sprite
+			glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
+			glVertex2i(this->x + this->w + this->modposX, this->y + this->modposY); //top right of sprite
 
-		glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
-		glVertex2i(this->x + this->modposX, this->y + this->h + this->modposY); //bottom left of sprite
+			glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
+			glVertex2i(this->x + this->w + this->modposX, this->y + this->h + this->modposY); //bottom right of sprite
+
+			glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
+			glVertex2i(this->x + this->modposX, this->y + this->h + this->modposY); //bottom left of sprite
 
 		glEnd();
 

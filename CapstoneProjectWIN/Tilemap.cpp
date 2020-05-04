@@ -47,13 +47,18 @@ void Tilemap::drawmap() {
         for (unsigned int i = 0; i < this->tiles.size(); i++) {
             this->tiles[i]->setPosition
             (
-                i % this->mapW,
-                i / this->mapW
+                (i % this->mapW) + this->mapX, //set the tiles across + position of the tilemap itself
+                (i / this->mapW) + this->mapY //set the tiles down + position of the tilemap itself
             );
+            if (this->assignedCamera) //we need to be absolutely certain that the tiles are being assigned properly
+                this->tiles[i]->assigned();
 
             this->tiles[i]->modifyOffset(this->modposX, this->modposY);
             this->tiles[i]->modifyRenderArea(this->renderAreaW, this->renderAreaH);
             this->tiles[i]->setViewData(this->viewarx, this->viewary, this->viewarw, this->viewarh);
+
+            this->tiles[i]->modifyColor(this->r, this->g, this->b); //set each tile's color to the sprite sheet's
+            this->tiles[i]->modifyAlpha(this->a); //set each tile's alpha to the sprite sheet's
 
             this->tiles[i]->draw();
         }
@@ -66,8 +71,8 @@ void Tilemap::execute() {
 
 void Tilemap::clearMap() {
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
-        this->tiles.at(i)->nullify(); //nullify the images first
-        delete this->tiles.at(i); //empty the tiles from the vector
+        this->tiles[i]->nullify(); //nullify the images first
+        delete this->tiles[i]; //empty the tiles from the vector
     }
     this->tiles.clear(); //clear out all empty tiles
 }
@@ -93,9 +98,9 @@ Tilemap::Tilemap() {
 Tilemap::~Tilemap() {
     //TODO implement the free
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
-        this->tiles.at(i)->nullify(); //nullify the images first
-        delete this->tiles.at(i); //empty the tiles from the vector
+        this->tiles[i]->nullify(); //nullify the images first
+        delete this->tiles[i]; //empty the tiles from the vector
     }
     this->tiles.clear(); //clear out all empty tiles
-    std::cout << "Tilemap deleted" << std::endl;
+    //std::cout << "Tilemap deleted" << std::endl;
 }

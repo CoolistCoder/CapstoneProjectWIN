@@ -32,7 +32,7 @@ public:
 	void stop(); // stops the sound that's playing
 	void pause(); //pauses the sound that's playing
 	void resume(); //resumes paused sounds
-	bool isPlaying(); //returns if the sound is playing
+	bool getPlaying(); //returns if the sound is playing
 
 
 	void execute(); //execute stored behavior

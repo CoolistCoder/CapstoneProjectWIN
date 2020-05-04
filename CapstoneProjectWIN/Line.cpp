@@ -28,8 +28,8 @@ void Line::setTransparency(Uint8 a) {
 void Line::draw() {
 	//This function's drawing algorithm is based on the Bresenham Line Algorithm
 	//We need to save the variables stored for the start and end points of the line
-	int savedStartX = this->startX, savedStartY = this->startY;
-	int savedEndX = this->endX, savedEndY = this->endY;
+	int savedStartX = this->startX + this->modposX, savedStartY = this->startY + this->modposY;
+	int savedEndX = this->endX + this->modposX, savedEndY = this->endY + this->modposY;
 
 	//We need variables to draw between the start and end points
 	int drawPositionX, drawCorrectX;

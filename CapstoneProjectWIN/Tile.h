@@ -41,7 +41,7 @@ public:
 	void toggleHorizontalFlip(); //toggle between true/false horizontal flips
 
 	//collision functions
-	//bool collideAgainst(Sprite*); //check if a collision occured with a sprite
+	bool collideAgainst(Sprite*); //check if a collision occured with a sprite
 	bool collideAgainst(int, int); //check to see if a point is colliding with this tile
 	bool collideAgainst(int, int, int, int); //check to see if a box-like entity is colliding with this tile
 	bool rendererCollision(); //check to see if tile is within renderer

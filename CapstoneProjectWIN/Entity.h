@@ -19,6 +19,9 @@ protected:
 	//the viewarea data
 	int viewarx, viewary, viewarw, viewarh;
 
+	//this boolean determines if a camera has been assigned
+	bool assignedCamera;
+
 	std::vector<Entity*> attachedEntities; //list of entities connected to this entity
 
 public:
@@ -54,6 +57,9 @@ public:
 	int getmodposY() { return this->modposY; };
 	int getAreaW() { return this->renderAreaW; };
 	int getAreaH() { return this->renderAreaH; };
+
+	bool getIfAssigned() { return this->assignedCamera; };
+	void assigned() { this->assignedCamera = true; };
 
 
 	virtual void execute() = 0; //pure virtual functio for executing the entity's stored behavior;

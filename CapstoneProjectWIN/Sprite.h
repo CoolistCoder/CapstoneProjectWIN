@@ -23,6 +23,12 @@ public:
 	void setFrameCount(unsigned int, unsigned int); //set the number of horizontal and vertical frames
 	void setFrame(int); //set the current frame
 
+	//Getters
+	int getPosX() { return this->x; };
+	int getPosY() { return this->y; };
+	int getPosW() { return this->w; };
+	int getPosH() { return this->h; };
+
 	//flip functions
 	void activateVerticalFlip() { this->VFlip = true; }; //force the vertical flip true
 	void activateHorizontalFlip() { this->HFlip = true; }; //force the horizontal flip true
