@@ -48,14 +48,14 @@ void Box::setSize(unsigned int w, unsigned int h) {
 	this->h = h;
 }
 
-void Box::setColor(Uint8 r, Uint8 g, Uint8 b) {
+void Box::modifyColor(Uint8 r, Uint8 g, Uint8 b) {
 	//set the values
 	this->r = r; //red
 	this->g = g; //green
 	this->b = b; //blue
 }
 
-void Box::setTransparency(Uint8 a) {
+void Box::modifyAlpha(Uint8 a) {
 	//set the alpha value
 	this->a = a;
 }

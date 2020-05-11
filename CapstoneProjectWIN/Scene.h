@@ -9,7 +9,7 @@
 #include "Sound.h"
 #include "Tile.h"
 #include "Tilemap.h"
-//#include "Text.h"
+#include "Text.h"
 #include <functional>
 #include <vector>
 

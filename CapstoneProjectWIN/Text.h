@@ -10,7 +10,7 @@ protected:
 	std::vector<Tile*> tiles; //the tiles stored in the text string
 	bool hasfont; //determines whether or not a font is loaded
 	static void defaultBehavior(Entity*);
-
+	bool individualColors; //determines whether or not to modify all the tile colors at once
 
 public:
 	void setString(std::string); //sets the string of the text
@@ -19,6 +19,11 @@ public:
 	void drawText(); //draws the text loaded into the map
 	void setSize(int, int); //sets the size of the font
 	void setPosition(int, int); //sets the position of the text
+
+	Tile* getTile(unsigned int); //gets a tile from the tiles vector
+
+	void isGlobalColor() { this->individualColors = false; }; //forces all tiles to be the same color globally
+	void notGlobalColor() { this->individualColors = true; }; //allows all tiles to be individually colored
 
 	//text will be 16x6
 

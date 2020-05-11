@@ -21,14 +21,14 @@ void Tilemap::createMap(int* arr, unsigned int arrsize) {
 
 }
 
-void Tilemap::allTileSize(int w, int h) {
+void Tilemap::tileSize(int w, int h) {
     //go through and give each tile a universal size
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
         this->tiles[i]->setSize(w,h);
     }
 }
 
-void Tilemap::allFrameCount(int a, int d) {
+void Tilemap::frameCount(int a, int d) {
     //go through and set each tile's frame count
     for (unsigned int i = 0; i < this->tiles.size(); i++) {
         this->tiles[i]->setFrameCount(a,d);
@@ -57,8 +57,11 @@ void Tilemap::drawmap() {
             this->tiles[i]->modifyRenderArea(this->renderAreaW, this->renderAreaH);
             this->tiles[i]->setViewData(this->viewarx, this->viewary, this->viewarw, this->viewarh);
 
-            this->tiles[i]->modifyColor(this->r, this->g, this->b); //set each tile's color to the sprite sheet's
-            this->tiles[i]->modifyAlpha(this->a); //set each tile's alpha to the sprite sheet's
+            //determine whether or not to use global colors
+            if (!this->individualColors) {
+                this->tiles[i]->modifyColor(this->r, this->g, this->b); //set each tile's color to the sprite sheet's
+                this->tiles[i]->modifyAlpha(this->a); //set each tile's alpha to the sprite sheet's
+            }
 
             this->tiles[i]->draw();
         }
@@ -84,12 +87,23 @@ void Tilemap::setSize(int w, int h) {
     }
 }
 
+Tile* Tilemap::getTile(unsigned int _at) {
+    //simply get a tile at the _at index so long as the tile is within the index
+    if (_at < this->tiles.size()) {
+        return this->tiles[_at];
+    }
+    return nullptr; //if a tile is not found return null
+}
+
 Tilemap::Tilemap() {
     //set data to defaults
     this->mapX = 0;
     this->mapY = 0;
     this->mapW = 4;
     this->mapH = 5;
+
+    //set the individual colors variable to false
+    this->individualColors = false;
 
     //override the default behavior
     this->setBehavior(Tilemap::defaultBehavior);

@@ -13,14 +13,14 @@ void Line::setLinePosition(int startX, int startY, int endX, int endY) {
 	this->endY = endY;
 }
 
-void Line::setColor(Uint8 r, Uint8 g, Uint8 b) {
+void Line::modifyColor(Uint8 r, Uint8 g, Uint8 b) {
 	//set the values
 	this->r = r; //red
 	this->g = g; //green
 	this->b = b; //blue
 }
 
-void Line::setTransparency(Uint8 a) {
+void Line::modifyAlpha(Uint8 a) {
 	//set the alpha value
 	this->a = a;
 }

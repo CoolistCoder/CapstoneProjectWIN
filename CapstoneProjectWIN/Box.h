@@ -20,12 +20,12 @@ public:
 
 	void setSize(unsigned int, unsigned int);  //set the size of the box
 	unsigned int getW() { return this->w; }; //return the width of the box
-	unsigned int hetH() { return this->h; }; //retuen the height of the box
+	unsigned int getH() { return this->h; }; //retuen the height of the box
 	void hide() { this->visible = false; } //hides the box
 	void show() { this->visible = true; } //shows the box
 
-	void setColor(Uint8, Uint8, Uint8); //sets the color of the box
-	void setTransparency(Uint8); //sets the transparency of the box
+	void modifyColor(Uint8, Uint8, Uint8); //sets the color of the box
+	void modifyAlpha(Uint8); //sets the transparency of the box
 
 	void independentFromCamera() { this->independent = true; };
 	void dependentOnCamera() { this->independent = false; };

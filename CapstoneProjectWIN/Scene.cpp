@@ -125,7 +125,7 @@ Scene::~Scene() {
 
 	//clean up entities loaded into the scene
 	for(unsigned int i=0; i < this->entitiesInScene.size(); i++){
-		delete this->entitiesInScene[i]);
+		delete this->entitiesInScene[i];
 	}
 	Scene::numscenes--; //decrement the number of scenes
 }

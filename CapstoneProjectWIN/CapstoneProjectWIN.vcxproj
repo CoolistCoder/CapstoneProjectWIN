@@ -195,6 +195,7 @@
   <ItemGroup>
     <Image Include="North_Star_background.png" />
     <Image Include="num.png" />
+    <Image Include="t.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
