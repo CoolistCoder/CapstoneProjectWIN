@@ -67,13 +67,13 @@ void Scene::execute() {
 		finished = true; //this will cause a break if a sort isn't performed
 		for (unsigned int i = 0; i < this->entitiesInScene.size() - 1; i++) {
 			//we need to perform a comparison with each member
-			if (this->entitiesInScene[i]->getPriority() < this->entitiesInScene[i + 1]->getPriority()) {
+			if (this->entitiesInScene[i]->getPriority() < this->entitiesInScene.at(i + 1)->getPriority()) {
 				//the swap is not complete, therefore the finished variable is false
 				finished = false;
 				//perform a swap
 				Entity* temp = this->entitiesInScene[i];
-				this->entitiesInScene[i] = this->entitiesInScene[i + 1];
-				this->entitiesInScene[i + 1] = temp;
+				this->entitiesInScene[i] = this->entitiesInScene.at(i + 1);
+				this->entitiesInScene.at(i + 1) = temp;
 			}
 		}
 	}
@@ -81,7 +81,8 @@ void Scene::execute() {
 	//we need the camera to modify the offset of all entities
 	if (this->activeCamera) {
 		//if the camera exists, proceed to loop through all the entities and modify their positions
-		for (int i = 0; i < this->entitiesInScene.size(); i++) {
+		for (unsigned int i = 0; i < this->entitiesInScene.size(); i++) {
+			//we need to set up everything in the scene to work with our camera
 			this->entitiesInScene[i]->modifyOffset(this->activeCamera->getX(), this->activeCamera->getY());
 			this->entitiesInScene[i]->modifyRenderArea(this->activeCamera->getW(), this->activeCamera->getH());
 			this->entitiesInScene[i]->setViewData(
@@ -90,7 +91,7 @@ void Scene::execute() {
 				this->activeCamera->getviewW(),
 				this->activeCamera->getviewH()
 			);
-			this->entitiesInScene[i]->assigned(); //now we have a camera, so we can say the entity has been assigned
+			this->entitiesInScene[i]->assigned(); //we now have a camera so we can say the entity has been assigned
 		}
 	}
 
@@ -107,7 +108,7 @@ void Scene::execute() {
 /*void Scene::cleanup() {
 	//go through each instance of scene and delete it from memory
 	for (unsigned int i = 0; i < Scene::allScenes.size(); i++) {
-		delete Scene::allScenes.at(i);
+		delete Scene::allScenes[i];
 	}
 }*/
 
@@ -124,7 +125,7 @@ Scene::~Scene() {
 	//TODO Auto-Generated Destructor Stub
 
 	//clean up entities loaded into the scene
-	for(unsigned int i=0; i < this->entitiesInScene.size(); i++){
+	for (unsigned int i = 0; i < this->entitiesInScene.size(); i++) {
 		delete this->entitiesInScene[i];
 	}
 	Scene::numscenes--; //decrement the number of scenes

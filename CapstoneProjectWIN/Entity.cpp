@@ -39,7 +39,7 @@ void Entity::coupleEntity(Entity* newEntity) {
 Entity* Entity::getAttachedEntity(unsigned int index) {
 	//this will return nullptr if the index is not valid
 	if (index < this->attachedEntities.size()) {
-		return this->attachedEntities[index]; //if it is valud, return the entity at given index
+		return this->attachedEntities.at(index); //if it is valud, return the entity at given index
 	}
 	return nullptr;
 }
@@ -95,10 +95,10 @@ void Entity::modifyRenderArea(int w, int h) {
 
 void Entity::setViewData(int x, int y, int w, int h) {
 	//if (x >= this->viewarx && y >= this->viewary && w <= this->viewarw && h <= this->viewarh) {
-		this->viewarx = x;
-		this->viewary = y;
-		this->viewarw = w;
-		this->viewarh = h;
+	this->viewarx = x;
+	this->viewary = y;
+	this->viewarw = w;
+	this->viewarh = h;
 	//}
 }
 
@@ -112,12 +112,14 @@ Entity::Entity() {
 	this->viewarw = 0;
 	this->viewarh = 0;
 
-	this->assignedCamera = false;
+	//the entity, by default, has not been assigned a camera
+	this->assignedcamera = false;
 
 	this->modposX = 0;
 	this->modposY = 0;
 	this->renderAreaW = 0;
 	this->renderAreaH = 0;
+
 }
 
 Entity::~Entity() {

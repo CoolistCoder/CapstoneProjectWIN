@@ -3,7 +3,7 @@
 
 //sprites will inherit from entities, and the new image class
 class Sprite : public Entity, public Image {
-private:
+protected:
 	int x, y; //the position data of the sprite
 	int w, h; //the width and height of the sprite
 	unsigned int framesW, framesH; //the number of horizontal and vertical frames

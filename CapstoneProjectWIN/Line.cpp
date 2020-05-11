@@ -1,3 +1,4 @@
+
 #include "Line.h"
 
 void Line::defaultBehavior(Entity* e) {
@@ -59,28 +60,27 @@ void Line::draw() {
 
 	//we need errorcheck to correct the drawing properly based on where the line positions are
 	if (drawCorrectX > drawCorrectY) { //if the line is wider than it is tall
-		errorCheck = drawCorrectX / 2; //adjust the line based on the x value
+		errorCheck = drawCorrectX / 2; //adjust the line based on the X value
 	}
-	else { //if the line is taller than it is wide
-		errorCheck = -drawCorrectY / 2; //adjust the line based on the y value
+	else {	//if the line is taller than it is wide
+		errorCheck = -drawCorrectY / 2; //adjust the line based on the Y value
 	}
 
-	glMatrixMode(GL_MODELVIEW); //change the matrix to the modelview matrix to modify objects drawn to the screen
-	glLoadIdentity();	//change the active identity to the modelview matrix
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	glColor4ub(this->r, this->g, this->b, this->a); //adjust the color values of the line beforehand
 
 	//this is where the line must be drawn
 	while (true) { //because of this formula, we break when the condition is met within the loop
-		//perform a typical draw here, but use quads to simulate pixels
-		//TODO: REMOVE AND REPLACE WITH VERTEX MODE
-		glBegin(GL_QUADS);	//draw quads
-		glVertex2i(savedStartX, savedStartY);	//top left
-		glVertex2i(savedStartX+1, savedStartY);	//bottom left
-		glVertex2i(savedStartX+1, savedStartY+1);	//bottom right
-		glVertex2i(savedStartX, savedStartY+1);	//top right
+		//perform a typical draw here but use quads to simulate pixels
+		glBegin(GL_QUADS);
+		glVertex2i(savedStartX, savedStartY); //top left
+		glVertex2i(savedStartX + 1, savedStartY); //top right
+		glVertex2i(savedStartX + 1, savedStartY + 1); //bottom right
+		glVertex2i(savedStartX, savedStartY + 1); //bottom left
 		glEnd();
 
-		//if the position of the startX and StartY are equal to the end, a break will occur
+		//if the position of the startX and startY are equal to the end, a break will occur
 		if (savedStartX == savedEndX && savedStartY == savedEndY) {
 			break;
 		}
@@ -92,12 +92,14 @@ void Line::draw() {
 			errorCheck -= drawCorrectY; //push it up
 			savedStartX += drawPositionX; //increment the line by 1 or -1 depending on which direction the line is pointing
 		}
-		if (errorCorrection > -drawCorrectY) { //same with Y
-			errorCheck -= drawCorrectY; //push it right
-			savedStartX += drawPositionX; //increment the line by 1 or -1 depending on which direction the line is pointing
+		if (errorCorrection < drawCorrectY) { //same with Y
+			errorCheck += drawCorrectX; //push it right
+			savedStartY += drawPositionY; //increment the line by 1 or -1 depending on which direction the line is pointing
 		}
+
 	}
 	glColor4ub(255, 255, 255, 255); //reset to the default color
+
 }
 
 void Line::execute() {
@@ -105,7 +107,7 @@ void Line::execute() {
 }
 
 Line::Line() {
-	//TODO Auto-Generated Constructor Stub
+	// TODO Auto-generated constructor stub
 	//set all to 0 except the end variables
 	this->startX = 0;
 	this->startY = 0;
@@ -118,10 +120,10 @@ Line::Line() {
 	this->b = 255;
 	this->a = 255;
 
-	//feed the setBehavior function the line's default behavior
+	//feed the setbehavior function the line's default behavior
 	this->setBehavior(Line::defaultBehavior);
 }
 
 Line::~Line() {
-	//TODO Auto-Geberated Destructor Stub
+	// TODO Auto-generated destructor stub
 }

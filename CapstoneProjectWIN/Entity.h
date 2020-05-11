@@ -7,7 +7,7 @@
 
 class Entity {
 protected:
-	std::function<void(Entity * e)> storedBehavior; //the behavior stored in the entity
+	std::function<void(Entity* e)> storedBehavior; //the behavior stored in the entity
 	unsigned int priority; //the priority of the entity and when it is handled in the vector
 	Joystick* knownJoystick; //the joystick that the entity is given
 	Engine* knownEngine; //the engine known by the entity
@@ -20,13 +20,13 @@ protected:
 	int viewarx, viewary, viewarw, viewarh;
 
 	//this boolean determines if a camera has been assigned
-	bool assignedCamera;
+	bool assignedcamera;
 
 	std::vector<Entity*> attachedEntities; //list of entities connected to this entity
 
 public:
 	virtual void setBehavior(void(Entity*)); //sets the behavior of the entity
-	
+
 	void setPriority(unsigned int p) { this->priority = p; }; //simply set this instance's priority index
 	unsigned int getPriority() { return this->priority; }; //simply return this instance's priority index
 
@@ -46,10 +46,10 @@ public:
 
 	void modifyOffset(int, int); //modify the modposX and modposY variables within the entity
 	void modifyRenderArea(int, int); //modify the renderAreaW and renderAreaH variables within the entity
-	void setViewData(int,int,int,int); //just set the viewdata of the entity
+	void setViewData(int, int, int, int); //just set the viewdata of the entity
 
 	//Retrieve the camera info
-	int getViewX() {return this->viewarx;};
+	int getViewX() { return this->viewarx; };
 	int getViewY() { return this->viewary; };
 	int getViewW() { return this->viewarw; };
 	int getViewH() { return this->viewarh; };
@@ -58,8 +58,9 @@ public:
 	int getAreaW() { return this->renderAreaW; };
 	int getAreaH() { return this->renderAreaH; };
 
-	bool getIfAssigned() { return this->assignedCamera; };
-	void assigned() { this->assignedCamera = true; };
+	//get whether or not a camera is assigned to the entity
+	bool getIfAssigned() { return this->assignedcamera; };
+	void assigned() { this->assignedcamera = true; }; //this sets the assigned variable to true
 
 
 	virtual void execute() = 0; //pure virtual functio for executing the entity's stored behavior;

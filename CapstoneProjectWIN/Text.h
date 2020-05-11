@@ -1,7 +1,7 @@
 #pragma once
-#include "Tile.h"
 
-class Text : public Image, public Entity{
+#include "Tile.h"
+class Text : public Image, public Entity {
 
 protected:
 	std::string string_to_draw; //the string that will be drawn to the string
@@ -19,9 +19,7 @@ public:
 	void drawText(); //draws the text loaded into the map
 	void setSize(int, int); //sets the size of the font
 	void setPosition(int, int); //sets the position of the text
-
 	Tile* getTile(unsigned int); //gets a tile from the tiles vector
-
 	void isGlobalColor() { this->individualColors = false; }; //forces all tiles to be the same color globally
 	void notGlobalColor() { this->individualColors = true; }; //allows all tiles to be individually colored
 

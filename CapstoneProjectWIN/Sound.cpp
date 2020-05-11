@@ -1,3 +1,4 @@
+
 #include "Sound.h"
 
 int Sound::globalVolume = 120; //default to the highest volume

@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "Image.h"
 
-class Background : public Entity , public Image {
+class Background : public Entity, public Image {
 protected:
 	int x, y; //the x and y positions of the background (should be the same as renderer)
 	unsigned int w, h; //the width and height of the background
@@ -42,7 +42,7 @@ public:
 	int getX() { return this->x; }; //return the x position of the background
 	int getY() { return this->y; }; //return the y position of the background
 
-	void setSubimage(int,int,int,int);
+	void setSubimage(int, int, int, int);
 
 	//camera functions
 	void hasCamera() { this->independentFromCamera = false; }; //attaches the object to the active camera

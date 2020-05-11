@@ -154,8 +154,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CapstoneProjectWIN.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Joystick.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Box.cpp" />
@@ -171,6 +173,7 @@
     <ClCompile Include="Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Box.h" />
@@ -178,6 +181,8 @@
     <ClInclude Include="ErrorLog.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="LaserAvenger.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
@@ -193,8 +198,10 @@
     <Media Include="robomb.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="guy.png" />
     <Image Include="North_Star_background.png" />
     <Image Include="num.png" />
+    <Image Include="setpieces.png" />
     <Image Include="t.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

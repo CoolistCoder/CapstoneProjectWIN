@@ -1,13 +1,8 @@
 #pragma once
-//Image loading library for creating objects that require images
-
 #include <Windows.h>
 #include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include <SDL_image.h> //image library
+#include <GL/gl.h> //the library that stores the image
 #include <iostream>
 
 class Image {
@@ -15,7 +10,7 @@ protected:
 	SDL_Surface* storedSource; //The source image, stored into the image object
 	GLuint image; //the image that will be drawn
 	unsigned int imageWidth, imageHeight; //the width and height of the image
-	std::string imagename; //this is where the image's name is stored for assignment 
+	std::string imagename; //this is where the image's name is stored for assignment
 	Uint8 r, g, b; //mod colors
 	Uint8 a; //alpha mod color
 

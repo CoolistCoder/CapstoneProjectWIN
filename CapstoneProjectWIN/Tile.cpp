@@ -1,15 +1,18 @@
 #include "Tile.h"
 
 void Tile::defaultBehavior(Entity* e) {
+	//just draw
 	static_cast<Tile*>(e)->draw();
 }
 
 void Tile::setPosition(int x, int y) {
+	//set the position of the tile * the width and height of the tile
 	this->x = x * this->w;
 	this->y = y * this->h;
 }
 
 void Tile::setSize(int w, int h) {
+	//sets the size of the tile
 	if (w > 0) {
 		this->w = w;
 	}
@@ -32,12 +35,14 @@ void Tile::setFrame(int currentFrame) {
 }
 
 void Tile::toggleVerticalFlip() {
+	//simply toggle the flip along the X axis
 	if (VFlip == false)
 		this->VFlip = true;
 	else this->VFlip = false;
 }
 
 void Tile::toggleHorizontalFlip() {
+	//simply toggle the flip along the Y axis
 	if (HFlip == false)
 		this->HFlip = true;
 	else this->HFlip = false;
@@ -64,6 +69,7 @@ bool Tile::collideAgainst(Sprite* spr) {
 	}
 	return false;
 }
+
 
 bool Tile::collideAgainst(int x, int y) {
 	//simply check to see if these values are within the box
@@ -95,32 +101,42 @@ bool Tile::collideAgainst(int x, int y, int w, int h) {
 bool Tile::rendererCollision() {
 	//first, check and see if an engine is present
 	if (this->getEngine()) {
+		//make sure we even have a camera assigned, if not then we just return true
+		if (!this->getIfAssigned()) {
+			return true; //just return true, we don't want to use a camera
+		}
+
 		//derender if the tile surpasses h
 		if ((this->modposY + (this->y)) > this->viewary + this->viewarh) {
 			//std::cout << "1 overlap" << std::endl;
 			return false;	//tile is too far up
 		}
-		//derender if the tile surpasses w	
+		//derender if the tile surpasses w
 		if ((this->modposX + (this->x)) > this->viewarx + this->viewarw) {
 			//std::cout << "2 overlap" << std::endl;
 			return false;	//tile is too far left
 		}
-		
+
 		if ((this->y + this->h + this->modposY) < this->viewary) {
 			//std::cout << "3 overlap" << std::endl;
 			return false;	//tile is too far down
 		}
-		
+
 		if ((this->x + this->w + this->modposX) < this->viewarx) {
 			//std::cout << "4 overlap" << std::endl;
 			return false;	//tile is too far right
 		}
-		
-			
+
+
 		return true;
 
 	}
 	return false; //do not draw if no engine is present!!!!
+}
+
+bool Tile::isFrame(int frame_at) {
+	//simply return whether or not the frame is the specified value
+	return (frame_at == this->frame);
 }
 
 void Tile::draw() {
@@ -194,19 +210,18 @@ void Tile::draw() {
 		//TODO IMPLEMENT THE SUBIMAGE DRAWING
 		//begin drawing
 		glBegin(GL_QUADS);
-			glColor4ub(this->r, this->g, this->b, this->a); //set the colors of the entity beforehand
+		glColor4ub(this->r, this->g, this->b, this->a); //set the colors of the entity beforehand
+		glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
+		glVertex2i((this->x) + this->modposX, (this->y) + this->modposY); //top left of tile
 
-			glTexCoord2i((subimageX), (subimageY)); //top left of the subimage
-			glVertex2i((this->x) + this->modposX, (this->y) + this->modposY); //top left of tile
+		glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
+		glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->modposY); //top right of tile
 
-			glTexCoord2i((subimageX + subimageW), (subimageY)); //top right of the subimage
-			glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->modposY); //top right of tile
+		glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
+		glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->h + this->modposY); //bottom right of tile
 
-			glTexCoord2i((subimageX + subimageW), (subimageY + subimageH)); //bottom right of the subimage
-			glVertex2i((this->x) + this->w + this->modposX, (this->y) + this->h + this->modposY); //bottom right of tile
-
-			glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
-			glVertex2i((this->x) + this->modposX, (this->y) + this->h + this->modposY); //bottom left of tile
+		glTexCoord2i((subimageX), (subimageY + subimageH));  //bottom left of the subimage
+		glVertex2i((this->x) + this->modposX, (this->y) + this->h + this->modposY); //bottom left of tile
 
 		glEnd();
 
@@ -220,6 +235,9 @@ void Tile::draw() {
 
 		//must disable textures before we do anything else to prevent opengl from getting confused with our textures
 		glDisable(GL_TEXTURE_2D);
+
+
+
 	}
 }
 

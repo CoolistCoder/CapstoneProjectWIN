@@ -27,7 +27,6 @@ void Camera::sizeToRenderer() {
 }
 
 void Camera::toCustomSize(int w, int h) {
-	//TODO implement this later
 	//first, change the bool
 	this->isToRenderer = false;
 	this->w = w;
@@ -35,22 +34,23 @@ void Camera::toCustomSize(int w, int h) {
 
 	if (this->getEngine()) { //if the engine is recognized, center the view
 		this->setViewArea(
-		(this->getEngine()->getResW() / 2) - (this->w / 2),
-		(this->getEngine()->getResH() / 2) - (this->h / 2),
-		this->w, 
-		this->h);
+			(this->getEngine()->getResW() / 2) - (this->w / 2),
+			(this->getEngine()->getResH() / 2) - (this->h / 2),
+			this->w,
+			this->h);
 	}
-	else { //if the engine isn't recognized, just put it up in the top left corner
+	else { //if the engine isn't recognized, just leave it up in the top left corner
 		this->setViewArea(this->x, this->y, this->w, this->h);
 	}
 }
 
-void Camera::setViewArea(int x, int y, int w, int h){
+void Camera::setViewArea(int x, int y, int w, int h) {
+	//this will set the view area of the camera
 	if (x >= this->x && y >= this->y && w <= this->w && h <= this->h) {
-		this->viewareaX = x;
-		this->viewareaY = y;
-		this->viewareaW = w;
-		this->viewareaH = h;
+		this->viewareaX = x; //the only things that will be drawn on the screen
+		this->viewareaY = y; //will be anything within these parameters
+		this->viewareaW = w; //therefore, if the position of the object is within
+		this->viewareaH = h; //these parameters, it will draw just fine
 	}
 }
 
@@ -69,7 +69,7 @@ Camera::Camera() {
 
 	this->isToRenderer = true; //by default, the camera is simply to the same size as the renderer
 
-	this->setViewArea(0,0,0,0);
+	this->setViewArea(0, 0, 0, 0); //keep the view area defaulted until the camera is added to the list of scenes
 
 	//set the camera default behavior
 	this->setBehavior(Camera::defaultBehavior);

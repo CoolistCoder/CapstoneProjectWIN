@@ -1,5 +1,4 @@
 #pragma once
-
 //Sounds are simply that: they store and play sounds
 //They may also play music if a specific load function is used
 
@@ -32,8 +31,7 @@ public:
 	void stop(); // stops the sound that's playing
 	void pause(); //pauses the sound that's playing
 	void resume(); //resumes paused sounds
-	bool getPlaying(); //returns if the sound is playing
-
+	bool getPlaying(); //returns if the sound or music is playing
 
 	void execute(); //execute stored behavior
 

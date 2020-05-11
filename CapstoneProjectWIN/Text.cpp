@@ -49,19 +49,22 @@ void Text::drawText() {
 		for (unsigned int i = 0; i < this->tiles.size(); i++) {
 			this->tiles[i]->setPosition
 			(
-				i + this->x,
-				this->y
+				i + this->x, //set the x position of the text
+				this->y //set the y position of the text
 			);
-			if (this->assignedCamera) //we need to be absolutely certain that the tiles are being assigned properly
+			if (this->assignedcamera) //we need to be absolutely certain that the tiles are being assigned properly
 				this->tiles.at(i)->assigned();
 			this->tiles[i]->modifyOffset(this->modposX, this->modposY);
 			this->tiles[i]->modifyRenderArea(this->renderAreaW, this->renderAreaH);
 			this->tiles[i]->setViewData(this->viewarx, this->viewary, this->viewarw, this->viewarh);
+
 			//determine whether or not to use global colors
 			if (!this->individualColors) {
 				this->tiles[i]->modifyColor(this->r, this->g, this->b); //set each tile's color to the sprite sheet's
 				this->tiles[i]->modifyAlpha(this->a); //set each tile's alpha to the sprite sheet's
 			}
+
+			//then draw
 			this->tiles[i]->draw();
 		}
 	}
@@ -117,10 +120,10 @@ Text::Text() {
 		this->hasfont = false;
 	}
 
+	this->setBehavior(Text::defaultBehavior);
+
 	this->individualColors = false; //by default, let's use a global color
 
-
-	this->setBehavior(Text::defaultBehavior);
 }
 
 Text::~Text() {

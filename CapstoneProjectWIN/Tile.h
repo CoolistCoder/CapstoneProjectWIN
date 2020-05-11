@@ -1,5 +1,6 @@
-#pragma once
+
 #include "Sprite.h" //include the sprite so we can use it for collisions
+#pragma once
 
 //The tile is a sprite that does not move freely, nor rotates
 //it is confined to a gridlike pattern based on its size
@@ -17,9 +18,9 @@ protected:
 
 	static void defaultBehavior(Entity*); //the default behavior of the tile
 public:
-    //todo modify the draw function to draw the tile based on its position * its width (or height)
-    //todo modify the draw function to remove its rotation
-    //todo modify the draw to ONLY draw if the tile is within the rendering area
+	//todo modify the draw function to draw the tile based on its position * its width (or height)
+	//todo modify the draw function to remove its rotation
+	//todo modify the draw to ONLY draw if the tile is within the rendering area
 
 	void setPosition(int, int); //set the position of the tile
 	void setSize(int, int); //set the size of the tile
@@ -45,6 +46,7 @@ public:
 	bool collideAgainst(int, int); //check to see if a point is colliding with this tile
 	bool collideAgainst(int, int, int, int); //check to see if a box-like entity is colliding with this tile
 	bool rendererCollision(); //check to see if tile is within renderer
+	bool isFrame(int); //returns what frame the tile is currently using
 
 	void draw(); //the draw function for the tile
 
@@ -53,4 +55,3 @@ public:
 	Tile();
 	virtual ~Tile();
 };
-
