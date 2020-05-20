@@ -1,3 +1,4 @@
+
 #include "Player.h"
 
 void Player::control(Entity* p) {
@@ -51,6 +52,7 @@ void Player::control(Entity* p) {
 
 	//fire the laser!
 	if (static_cast<Player*>(p)->fired) {
+		static_cast<Player*>(p)->lasersound->play();
 		if (!static_cast<Player*>(p)->savedDirection) { //if the laser is supposed to go left
 			static_cast<Player*>(p)->laser->setLinePosition(
 				static_cast<Player*>(p)->laserStartX,
@@ -85,6 +87,7 @@ void Player::control(Entity* p) {
 					static_cast<Player*>(p)->walls->getTile(i)->isFrame(1)) {
 					//this determines whether or not the player is colliding with a tile that happens to be a wall
 					static_cast<Player*>(p)->fired = false;
+					static_cast<Player*>(p)->lasersound->stop();
 				}
 			}
 		}
@@ -107,7 +110,7 @@ void Player::control(Entity* p) {
 
 void Player::die(Entity* p) {
 	static_cast<Player*>(p)->modifyColor(255, 255, 0);
-
+	static_cast<Player*>(p)->deathsound->play();
 	static int waitstatic = 0;
 	waitstatic++;
 	if (waitstatic > 2) {
@@ -138,6 +141,8 @@ void Player::die(Entity* p) {
 	static_cast<Player*>(p)->waittime++;
 	if (static_cast<Player*>(p)->waittime > static_cast<Player*>(p)->deathwait) {
 		static_cast<Player*>(p)->waittime = 0; //the waittime is reset
+		static_cast<Player*>(p)->score--; //remove 1 from the score
+		static_cast<Player*>(p)->deathsound->stop();
 		static_cast<Player*>(p)->setBehavior(Player::setup); //reset the object
 	}
 
@@ -296,10 +301,10 @@ void Player::kill() {
 void Player::run() {
 	//if the shift key is held, the player will run
 	if (Engine::getKey(SDL_SCANCODE_LSHIFT)) {
-		this->speed = 3;
+		this->speed = 5;
 	}
 	else {
-		this->speed = 1;
+		this->speed = 3;
 	}
 }
 
@@ -347,10 +352,32 @@ Player::Player() {
 
 	this->speed = 1;
 
+	//default score values
+	this->score = 0;
+
+	//set up the sound variables of the player
+	this->lasersound = new Sound;
+	this->deathsound = new Sound;
+	this->lasersound->loadSound("laser.wav");
+	this->deathsound->loadSound("electricity.wav");
+	this->lasersound->setChannel(0);
+	this->deathsound->setChannel(1);
+	this->lasersound->waitUntilDone();
+	this->lasersound->setVolume(100);
+	this->deathsound->setVolume(40);
+
 }
 
 Player::~Player() {
 	// TODO Auto-generated destructor stub
+
+	//we need to delete any sounds that are present
+	if (this->lasersound) {
+		delete this->lasersound;
+	}
+	if (this->deathsound) {
+		delete this->deathsound;
+	}
 
 	//we need to make sure to delete any lasers that are present
 	if (this->laser != nullptr) {

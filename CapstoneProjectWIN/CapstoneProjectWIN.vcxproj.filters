@@ -75,6 +75,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -137,9 +140,18 @@
     <ClInclude Include="LaserAvenger.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="robomb.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="laser.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="electricity.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>
@@ -157,6 +169,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="setpieces.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="LaserAvenger.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

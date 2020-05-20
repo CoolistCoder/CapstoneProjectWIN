@@ -1,3 +1,5 @@
+
+
 #include "Enemy.h"
 
 void Enemy::setup(Entity* e) {
@@ -6,6 +8,9 @@ void Enemy::setup(Entity* e) {
 	//use a little bit of randomness to determine where to put the enemy
 	temp->x = rand() % (1920 / 4); //randomize the position of the enemy
 	temp->y = rand() % (1080 / 4);
+
+	//randomize the enemy's color
+	temp->modifyColor(rand() % 255, rand() % 255, rand() % 255);
 
 	//then, determine where to put the enemy
 	if (temp->x > temp->y) {
@@ -97,6 +102,7 @@ void Enemy::killUponContact() {
 void Enemy::killAgainstLaser() {
 	//if a collision is made with the player's laser then
 	if (this->collideAgainst(this->knownplayer->getLaserX(), this->knownplayer->getLaserY())) {
+		this->knownplayer->updateScore(1); //give a point to the player
 		this->setBehavior(Enemy::die); //just die
 	}
 }

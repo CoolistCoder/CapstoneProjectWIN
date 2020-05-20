@@ -94,9 +94,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -109,9 +110,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -126,9 +128,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -144,9 +147,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -166,6 +170,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -183,6 +188,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="LaserAvenger.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
@@ -195,10 +201,13 @@
     <ClInclude Include="Tilemap.h" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="electricity.wav" />
+    <Media Include="laser.wav" />
     <Media Include="robomb.wav" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="guy.png" />
+    <Image Include="LaserAvenger.jpg" />
     <Image Include="North_Star_background.png" />
     <Image Include="num.png" />
     <Image Include="setpieces.png" />

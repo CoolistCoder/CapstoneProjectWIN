@@ -9,6 +9,7 @@
 #include "Tile.h"
 #include "Tilemap.h"
 #include "Text.h"
+#include "Background.h"
 #include <functional>
 #include <vector>
 

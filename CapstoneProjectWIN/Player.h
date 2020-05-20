@@ -2,9 +2,10 @@
 #include "Sprite.h"
 #include "Tilemap.h"
 #include "Line.h"
+#include "Sound.h"
+#include "Text.h"
 
 class Player : public Sprite {
-private:
 private:
 	//we need behaviors that reflect the state the player is in
 	static void control(Entity*); //this is the normal control state
@@ -14,6 +15,8 @@ private:
 	//we need to have a few pointers to keep track of things
 	Line* laser; //the laser projectile the player will launch
 	Tilemap* walls; //the walls that the player must be aware of
+	Sound* lasersound; //the sound the player makes when a laser is fired
+	Sound* deathsound; //the sound the player makes when dying
 
 	//animation values
 	const int walkDelayMax = 5; //determines how long the frames must wait before the walk cycle
@@ -31,6 +34,8 @@ private:
 	bool savedDirection; //left is false, right is true
 	int speed; //the speed of the player
 
+	int score; //the score of the player
+
 public:
 	void moveDown(); //moves the player down
 	void moveUp(); //moves the player up
@@ -41,6 +46,9 @@ public:
 	void run(); //makes the player run if the shift key is held
 	int getLaserX() { return this->laserX; }; //returns the laser's x position
 	int getLaserY() { return this->laserY; }; //returns the laser's y position
+
+	void updateScore(int u) { this->score += u; }; //updates the player's score
+	int getScore() { return this->score; }; //returns the player's score
 
 	void wallIs(Tilemap*); //gives the player the wall info
 
