@@ -51,7 +51,7 @@ public:
 	//other stuff
 	void setSize(unsigned int, unsigned int);  //set the size of the background
 	unsigned int getW() { return this->w; }; //return the width of the background
-	unsigned int hetH() { return this->h; }; //retuen the height of the background
+	unsigned int getH() { return this->h; }; //retuen the height of the background
 
 	void hide() { this->visible = false; } //hides the background
 	void show() { this->visible = true; } //shows the background
