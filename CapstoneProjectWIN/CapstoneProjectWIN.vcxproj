@@ -158,10 +158,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CapstoneProjectWIN.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Joystick.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Box.cpp" />
@@ -170,7 +168,6 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -178,7 +175,6 @@
     <ClCompile Include="Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Box.h" />
@@ -186,9 +182,6 @@
     <ClInclude Include="ErrorLog.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="LaserAvenger.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Score.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
@@ -199,19 +192,6 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Tilemap.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="electricity.wav" />
-    <Media Include="laser.wav" />
-    <Media Include="robomb.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="guy.png" />
-    <Image Include="LaserAvenger.jpg" />
-    <Image Include="North_Star_background.png" />
-    <Image Include="num.png" />
-    <Image Include="setpieces.png" />
-    <Image Include="t.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

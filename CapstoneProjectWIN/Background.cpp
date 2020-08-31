@@ -67,13 +67,13 @@ void Background::draw() {
 		//apply if the rotation isn't zero
 		if (this->rotation != 0) {
 			//translate so center is at (0,0,0)
-			glTranslatef(drawToX + this->modposX + (drawToW / 2), drawToY + this->modposY + (drawToH / 2), 0);
+			glTranslatef((GLfloat)drawToX + this->modposX + ((GLfloat)drawToW / 2), (GLfloat)drawToY + this->modposY + ((GLfloat)drawToH / 2), 0);
 
 			//rotate the background a specified angle around the z-axis (2-D rotation)
-			glRotatef(this->rotation, 0.0, 0.0, 1.0);
+			glRotatef((GLfloat)this->rotation, 0.0, 0.0, 1.0);
 
 			//translate back to original position
-			glTranslatef(-(drawToX + this->modposX + (drawToW / 2)), -(drawToY + this->modposY + (drawToH / 2)), 0);
+			glTranslatef(-((GLfloat)drawToX + this->modposX + ((GLfloat)drawToW / 2)), -((GLfloat)drawToY + this->modposY + ((GLfloat)drawToH / 2)), 0);
 		}
 
 		//we need to account for culling if a flip is to occur
@@ -87,25 +87,25 @@ void Background::draw() {
 		//perform a horizontal flip if the xFlip bool is true
 		if (this->toggleFlipX) {
 			//translate so center is at (0,0,0)
-			glTranslatef(drawToX + this->modposX + (drawToW / 2), drawToY + this->modposY + (drawToH / 2), 0);
+			glTranslatef((GLfloat)drawToX + this->modposX + ((GLfloat)drawToW / 2), (GLfloat)drawToY + this->modposY + ((GLfloat)drawToH / 2), 0);
 
 			//rotate the background a specified angle around the z-axis (2-D rotation)
 			glRotatef(180, 0.0, 1.0, 0.0);
 
 			//translate back to original position
-			glTranslatef(-(drawToX + this->modposX + (drawToW / 2)), -(drawToY + this->modposY + (drawToH / 2)), 0);
+			glTranslatef(-((GLfloat)drawToX + this->modposX + ((GLfloat)drawToW / 2)), -((GLfloat)drawToY + this->modposY + ((GLfloat)drawToH / 2)), 0);
 		}
 
 		//perform a vertical flip if the yFlip bool is true
 		if (this->toggleFlipY) {
 			//translate so center is at (0,0,0)
-			glTranslatef(drawToX + this->modposX + (drawToW / 2), drawToY + this->modposY + (drawToH / 2), 0);
+			glTranslatef((GLfloat)drawToX + this->modposX + ((GLfloat)drawToW / 2), (GLfloat)drawToY + this->modposY + ((GLfloat)drawToH / 2), 0);
 
 			//rotate the background a specified angle around the z-axis (2-D rotation)
 			glRotatef(180, 1.0, 0.0, 0.0);
 
 			//translate back to original position
-			glTranslatef(-(drawToX + this->modposX + (drawToW / 2)), -(drawToY + this->modposY + (drawToH / 2)), 0);
+			glTranslatef(-((GLfloat)drawToX + this->modposX + ((GLfloat)drawToW / 2)), -((GLfloat)drawToY + this->modposY + ((GLfloat)drawToH / 2)), 0);
 		}
 
 		//set up the parameters for drawing the image so it uses the pixels
